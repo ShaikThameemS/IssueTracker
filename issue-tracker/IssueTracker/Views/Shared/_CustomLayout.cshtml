@@ -1,0 +1,136 @@
+﻿<!DOCTYPE html>
+<html ng-app="issueTracker">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>@ViewBag.Title - My ASP.NET Application</title>
+    @Styles.Render("~/Content/css")
+    @Scripts.Render("~/bundles/modernizr")
+    @Scripts.Render("~/bundles/jquery")
+    @Scripts.Render("~/bundles/jquery-ui")
+    @RenderSection("AddToHead", required: false)
+    <meta name="description" content="Your very best Issue Tracker" />
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.5.6/angular.min.js"></script>
+    <script src="//ajax.googleapis.com/ajax/libs/angularjs/1.2.16/angular-route.min.js"></script>
+    
+    <link rel="stylesheet" href="~/Content/dragdrop/framework/vendor/bootstrap.min.css">
+    <link rel="stylesheet" href="~/Content/dragdrop/framework/vendor/bootstrap-theme.min.css">
+
+    <link rel="stylesheet" href="~/Content/dragdrop/framework/vendor/prism.css">
+    <link rel="stylesheet" href="~/Content/dragdrop/framework/demo-framework.css">
+    <link rel="stylesheet" type="text/css" href="~/Content/dragdrop/simple/simple.css" />
+    <link rel="stylesheet" type="text/css" href="~/Content/dragdrop/nested/nested.css" />
+    <link rel="stylesheet" type="text/css" href="~/Content/dragdrop/types/types.css" />
+    <link rel="stylesheet" type="text/css" href="~/Content/dragdrop/advanced/advanced.css" />
+    <link rel="stylesheet" type="text/css" href="~/Content/dragdrop/multi/multi.css" />
+
+    <script src="~/Content/dragdrop/framework/vendor/prism.js"></script>
+    <script src="~/Content/dragdrop/framework/demo-framework.js"></script>
+    <script src="~/Content/dragdrop/framework/view-source.js"></script>
+    <script src="~/Content/dragdrop/simple/simple.js"></script>
+    <script src="~/Content/dragdrop/nested/nested.js"></script>
+    <script src="~/Content/dragdrop/types/types.js"></script>
+    <script src="~/Content/dragdrop/advanced/advanced.js"></script>
+    <script src="~/Content/dragdrop/multi/multi.js"></script>
+    <script src="~/Scripts/angular-drag-and-drop-lists.js"></script>
+
+    <script src="~/Content/owl.carousel.js"></script>
+    <link href="~/Content/owl.carousel.min.css" rel="stylesheet" />
+
+    <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/trix/0.9.2/trix.css">
+    <script src="//cdnjs.cloudflare.com/ajax/libs/trix/0.9.2/trix.js"></script>
+
+    <script src="~/App/Issue/Mgmnt.js"></script>
+    <script src="~/App/Issue/Service.js"></script>
+
+    <script src="~/App/Users/Mgmnt.js"></script>
+    <script src="~/App/Users/Service.js"></script>
+
+    <script src="~/App/Roles/Mgmnt.js"></script>
+    <script src="~/App/Roles/Service.js"></script>
+    
+    <script src="~/App/app.js"></script>
+    <script src="~/App/shared/sharedService.js"></script>
+    <script src="~/App/shared/apiService.js"></script>
+
+</head>
+<body>
+    <div class="container-fluid">
+        @if (!(ViewBag.HideMenu ?? false))
+        {
+            @Html.Partial("_Menu")
+        }
+        @RenderSection("Tabs", required: false)
+        @RenderBody()
+    </div>
+    @Scripts.Render("~/bundles/bootstrap")
+    @Scripts.Render("~/bundles/scripts")
+    @RenderSection("Scripts", required: false)
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-mousewheel/3.1.13/jquery.mousewheel.min.js"></script>
+    @if (!(ViewBag.HideMenu ?? false))
+    {
+        <script>
+		    var menu = new gnMenu(document.getElementById('gn-menu'));
+
+		    // Wrap everything in an IIFE
+		    (function($, viewport) {
+
+			    // Execute only after document has fully loaded
+			    $(document).ready(function() {
+				    var scroller = $('.gn-scroller');
+				    height = scroller.height();
+				    scrollHeight = scroller.get(0).scrollHeight;
+
+				    scroller.bind('mousewheel', function(e, d) {
+					    if ((this.scrollTop === ($('.gn-scroller').get(0).scrollHeight - $('.gn-scroller').height()) && d < 0) || (this.scrollTop === 0 && d > 0)) {
+						    e.preventDefault();
+					    }
+				    });
+
+				    scroller.bind('touchmove', function (e) {
+					    if ((this.scrollTop === ($('.gn-scroller').get(0).scrollHeight - $('.gn-scroller').height())) || (this.scrollTop === 0)) {
+						    e.preventDefault();
+					    }
+				    });
+				    
+				    // Executes only in XS breakpoint
+				    if (viewport.is('xs')) {
+					    // ...
+				    }
+
+				    // Executes only in XS breakpoint
+				    if (viewport.is('xs')) {
+
+				    }
+
+				    // Executes in SM, MD and LG breakpoints
+				    if (viewport.is('>=sm')) {
+					    // menu._openIconMenu();
+				    }
+
+				    // Executes in XS and SM breakpoints
+				    if (viewport.is('<md')) {
+					    // menu._closeIconMenu();
+				    }
+			    });
+
+			    // Execute code each time window size changes
+			    $(window).resize(
+				    viewport.changed(function() {
+					    if (viewport.is('xs')) {
+						    // menu._closeIconMenu();
+						    // $("body").css("margin-left", "0");
+					    }
+
+					    if (viewport.is('>=sm')) {
+						    // menu._openIconMenu();
+						    // $("body").css("margin-left", "60px");
+					    }
+				    })
+			    );
+
+		    })(jQuery, ResponsiveBootstrapToolkit);
+        </script>
+    }
+</body>
+</html>

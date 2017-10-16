@@ -1,0 +1,77 @@
+@model PagedList.IPagedList<IssueTracker.ViewModels.ProjectViewModel>
+@using PagedList.Mvc
+@using IssueTracker.Extensions;
+
+<link href="~/Content/PagedList.css" rel="stylesheet" type="text/css" />
+
+@{
+    ViewBag.Title = ProjectStrings.TitleIndex;
+}
+
+<ul class="nav nav-tabs">
+    <li role="presentation" class="@(Html.ActivePage("Projects", action: "Index") ?? Html.ActivePage("Projects", action: "List", id: "MyProjects"))"><a href="@Url.Action("Index", "Projects")">@ProjectStrings.TabMyProjects</a></li>
+    <li role="presentation" class="@Html.ActivePage("Projects", action: "List", id: "All")"><a href="@Url.Action("List", "Projects", new { id = "All" })">@SharedStrings.TabAll</a></li>
+    @if (new string[] { "Index", "List" }.Contains(ViewContext.RouteData.Values["action"].ToString()))
+    {
+        <li id="create-button">
+            <button type="button" class="btn btn-primary" onclick="location.href='@Url.Action("Create", "Projects")'">
+                <span class="glyphicon glyphicon-plus" aria-hidden="true"></span> @SharedStrings.ButtonAdd
+            </button>
+        </li>
+    }
+</ul>
+
+<h2>@ViewBag.Title</h2>
+
+<div class="text-danger">@ViewBag.ErrorMessageNotOwner</div>
+
+@if (Model.Count == 0)
+{
+    <i>@Html.Raw(string.Format(ProjectStrings.ListNoResult, Html.ActionLink(ProjectStrings.ListNoResultNew, "Create")))</i>
+}
+else
+{
+    <table class="table entity-listing">
+        <tr>
+            <th>
+                @ProjectStrings.ProjectTitle
+            </th>
+            <th>
+                @ProjectStrings.ProjectCode
+            </th>
+            <th>
+                @ProjectStrings.ProjectOwner
+            </th>
+            <th>
+                @ProjectStrings.ProjectUsers
+            </th>
+            <th>
+            </th>
+        </tr>
+
+        @foreach (var item in Model)
+        {
+            int NoOfusers = item.Users.Count();
+            <tr>
+                <td>
+                    @Html.ActionLink(item.Title, "Details", new { id = item.Code })
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Code)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Owner.UserName)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => NoOfusers)
+                </td>
+                <td></td>
+            </tr>
+        }
+    </table>
+    <br />
+
+    <Text>@string.Format(@SharedStrings.Paging, Model.PageCount < Model.PageNumber ? 0 : Model.PageNumber, Model.PageCount)</Text>
+    @Html.PagedListPager(Model, page => Url.Action("Index",
+        new { page, sortOrder = ViewBag.CurrentSort, currentFilter = ViewBag.CurrentFilter }))
+}

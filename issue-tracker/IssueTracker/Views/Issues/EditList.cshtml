@@ -1,0 +1,49 @@
+﻿
+@{
+    ViewBag.Title = "EditList";
+}
+
+<h2>EditList</h2>
+
+
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+
+    <div class="form-horizontal">
+
+        <hr />
+        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+        @Html.Hidden("load-project-users-url", @Url.Action("LoadProjectUsers", "Issues"), new { @id = "LoadProjectUsersUrl" })
+        <span class="text-danger">@ViewBag.ErrorSQL</span>
+        <span class="text-danger">@ViewBag.ErrorInvalidProject</span>
+        <br /><br />
+
+        <div class="form-group">
+            <label class="control-label col-md-2">Description</label>
+            <div class="col-md-10">
+                <input type="text" ng-model="nCoupon.Description" id='n-Description' ng-disabled="locationNotSelected" required />
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label class="control-label col-md-2">Name</label>
+            <div class="col-md-10">
+                <input type="text" ng-model="nCoupon.Description" id='n-Description' ng-disabled="locationNotSelected" required />
+            </div>
+        </div>
+
+        <div class="form-group">
+            <div class="col-md-offset-2 col-md-10">
+                <input type="submit" value="save" class="btn btn-default" />
+            </div>
+        </div>
+
+    </div>
+}
+
+
+
+<div>
+    @Html.ActionLink(SharedStrings.BackToList, "Index")
+</div>

@@ -1,0 +1,42 @@
+﻿@model IssueTracker.ViewModels.StateViewModel
+
+@{
+    Layout = "~/Views/Shared/_SettingsTabbedLayout.cshtml";
+    ViewBag.Title = string.Format(StateStrings.TitleDetails, Model.Title);
+}
+
+<h2>@ViewBag.Title</h2>
+
+<div>
+    <hr />
+    <div id="create-button" class="float-right">
+        <button type="button" class="btn btn-primary" onclick="location.href = '@Url.Action("Edit", "States", new {id = Model.Id})'">
+            <span class="glyphicon glyphicon-edit" aria-hidden="true"></span> @SharedStrings.ButtonEdit
+        </button>
+        <button type="button" class="btn btn-default" onclick="location.href = '@Url.Action("Delete", "States", new {id = Model.Id})'">
+            <span class="glyphicon glyphicon-remove" aria-hidden="true"></span> @SharedStrings.ButtonDelete
+        </button>
+    </div>
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.Title)
+        </dt>
+
+        <dd>
+            <span class="label state" style="background-color: @Html.DisplayFor(model => model.Colour);">@Html.DisplayFor(model => model.Title)</span>
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.IsInitial)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.IsInitial)
+        </dd>
+
+    </dl>
+</div>
+<p>
+
+    @Html.ActionLink(SharedStrings.BackToList, "Index")
+</p>

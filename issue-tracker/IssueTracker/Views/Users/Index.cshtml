@@ -1,0 +1,52 @@
+﻿@model IEnumerable<IssueTracker.Entities.ApplicationUser>
+@using IssueTracker.Extensions;
+
+@{
+    ViewBag.Title = UserStrings.TitleIndex;
+    Layout = "~/Views/Shared/_CustomLayout.cshtml";
+}
+<ul class="nav nav-tabs">
+    <li role="presentation" class="@(Html.ActivePage("Users", action: "Index") ?? Html.ActivePage("Users", action: "List", id: "MyUsers"))"><a href="@Url.Action("Index", "Users")">@SharedStrings.TabAll</a></li>
+    @if (new string[] { "Index", "List" }.Contains(ViewContext.RouteData.Values["action"].ToString()))
+    {
+        <li id="create-button">
+            <button type="button" class="btn btn-primary" onclick="location.href='@Url.Action("Create", "Users")'">
+                <span class="glyphicon glyphicon-plus" aria-hidden="true"></span> @SharedStrings.ButtonAdd
+            </button>
+        </li>
+    }
+</ul>
+<h2>@ViewBag.Title</h2>
+
+<table class="table entity-listing">
+    <tr>
+        <th>
+            @UserStrings.ApplicationUserUsername
+        </th>
+        <th>
+            @UserStrings.ApplicationUserEmail
+        </th>
+        <th>
+            @UserStrings.ApplicationUserPhone
+        </th>
+
+        <th></th>
+    </tr>
+
+@foreach (var item in Model) {
+    <tr>
+        <td>
+            @Html.ActionLink(item.UserName, "Details", new { id = item.Id })
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Email)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.PhoneNumber)
+        </td>
+        <td>
+        </td>
+    </tr>
+}
+
+</table>

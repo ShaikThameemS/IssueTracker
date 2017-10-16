@@ -1,0 +1,69 @@
+﻿
+@{
+    ViewBag.Title = "List";
+}
+
+<h2>List</h2>
+
+
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+
+        <ul class="nav nav-tabs">
+            <li id="create-button">
+                <button type="button" class="btn btn-primary" onclick="location.href='@Url.Action("UserRole", "Users")'">
+                    <span class="glyphicon glyphicon-plus" aria-hidden="true">Add</span>
+                </button>
+             
+            </li>
+
+        </ul>
+         
+
+    <table class="table entity-listing">
+        <tr>
+            <th>
+                Id
+           
+            </th>
+            <th>
+                Name
+            </th>
+            <th>
+                Description
+            </th>
+
+        </tr>
+   
+        <tr>
+            <th>
+                @Html.ActionLink("101", "UserDetails")
+                @*@Html.ActionLink("Id", "Details", new { id =Id })*@
+
+            </th>
+            <th>
+                Test
+            </th>
+            <th>
+                The ng-list directive converts a string into an array of strings, using a comma as the default separator
+            </th>
+
+        </tr>
+        <tr>
+            <th>
+                102
+
+            </th>
+            <th>
+                Test2
+            </th>
+            <th>
+                The ng-list directive converts a string into an array of strings, using a comma as the default separator
+            </th>
+
+        </tr>
+    </table>
+  
+
+}

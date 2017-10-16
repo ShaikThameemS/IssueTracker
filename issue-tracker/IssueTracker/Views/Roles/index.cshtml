@@ -1,0 +1,189 @@
+﻿
+<div><ng-view></ng-view></div>
+
+<script type="text/ng-template" id="roledetails">
+    <ul class="nav nav-tabs">
+        <li id="create-button">
+            <a class="btn btn-primary" aria-hidden="true" href="#/editroles/{{id}}">
+                <span class="glyphicon glyphicon-edit" aria-hidden="true">Edit</span>
+            </a>
+            <button type="button" class="btn btn-primary" aria-hidden="true" ng-click="deleteRole()">
+                <span class="glyphicon glyphicon-remove" aria-hidden="true">Delete</span>
+            </button>
+        </li>
+    </ul>
+    <dl class="dl-horizontal">
+        <dt>
+            Id
+        </dt>
+        <dd>
+            {{role.Id}}
+        </dd>
+    </dl>
+    <dl class="dl-horizontal">
+        <dt>
+            Name
+        </dt>
+
+        <dd>
+            {{role.Name}}
+        </dd>
+    </dl>
+    <dl class="dl-horizontal">
+        <dt>
+            Description
+        </dt>
+
+        <dd>
+            {{role.Description}}
+        </dd>
+    </dl>
+</script>
+
+<script type="text/ng-template" id="RoleList">
+    <h2>Roles</h2>
+    <hr />
+    <ul class="nav nav-tabs">
+        <li id="create-button">
+            <a type="button" class="btn btn-primary" href="#/addroles">
+                <span class="glyphicon glyphicon-plus" aria-hidden="true"></span> @SharedStrings.ButtonAdd
+            </a>
+
+        </li>
+    </ul>
+
+    <table class="table">
+        <tr>
+            <th>
+                Name
+            </th>
+            <th>
+                Description
+            </th>
+        </tr>
+        <tr ng-repeat="item in RolesList">
+            <td>
+                <a href="#/roledetails/{{item.Id}}">{{item.Name}}</a>
+            </td>
+            <td>
+                {{item.Description}}
+            </td>
+        </tr>
+    </table>
+</script>
+<script type="text/ng-template" id="addroles">
+    <h2>{{isEdit==true?'Edit Role':'Add Role'}}</h2>
+    <hr />
+
+    <div class="form-horizontal">
+        <div class="form-group">
+            <label class="control-label col-md-2">Name</label>
+            <div class="col-md-10">
+                <input type="text" ng-model="role.Name" id='n-name' required />
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="control-label col-md-2">Description</label>
+            <div class="col-md-10">
+                <textarea rows="5" cols="50" ng-model="role.Description">
+                </textarea>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <div class="col-md-offset-2 col-md-10">
+                <button class="btn btn-default" ng-click="isEdit==true?updateRoles():createRoles()">{{isEdit==true?'Update':'Create'}}</button>
+            </div>
+        </div>
+
+    </div>
+    <div>
+        <a href="#/Roles">BackToList</a>
+    </div>
+</script>
+
+
+<script type="text/javascript">
+    roles.config(function ($routeProvider) {
+        $routeProvider
+            .when('/Roles', {
+                templateUrl: 'RoleList',
+                controller: 'RoleListController'
+            })
+            .when('/addroles', {
+                templateUrl: 'addroles',
+                controller:"RolesController"
+            })
+            .when('/roledetails/:id', {
+                templateUrl: 'roledetails',
+                controller: "RolesDetailsController"
+            })
+            .when('/editroles/:id', {
+                templateUrl: 'addroles',
+                controller: "RolesController"
+            })
+            .otherwise({
+                redirectTo: '/Roles'
+            });
+        });
+    roles.controller("RoleListController", function ($scope, roleService) {
+
+        roleService.getRoles().then(function (response) {
+            $scope.RolesList = response;
+        });
+    });
+    roles.controller("RolesController", function ($scope, roleService, $routeParams) {
+        $scope.isEdit = false;
+        $scope.role = {};
+        if($routeParams.id)
+        {
+            $scope.isEdit = true;
+            roleService.getRolesDetails($routeParams.id).then(function (response) {
+                $scope.role = response[0];
+            },
+            function (error) {
+            });
+
+            $scope.updateRoles = function () {
+                roleService.updateRoles($scope.role).then(function (response) {
+                    alert(response);
+                    window.location.href = "#/Roles";
+                },
+                function (error) {
+                });
+            };
+
+
+        }
+        else
+        {
+            $scope.createRoles = function () {
+                roleService.createRoles($scope.role).then(function (response) {
+                    alert(response);
+                    window.location.href = "#/Roles";
+                },
+                function (error) {
+                });
+            };
+        }
+    });
+    roles.controller("RolesDetailsController", function ($scope, roleService, $routeParams) {
+        $scope.id = $routeParams.id;
+        if ($routeParams.id) {
+            roleService.getRolesDetails($routeParams.id).then(function (response) {
+                $scope.role = response[0];                
+            },
+            function (error) {
+            });
+            $scope.deleteRole = function () {
+                if ($scope.id && confirm("Are you sure, want to delete the Role?")) {
+                    roleService.deleteRole($scope.id).then(function (response) {
+                        alert(response);
+                        window.location.href = "#/Roles";
+                    }, function (error) {
+                    });
+                }
+            }
+        }
+    });
+</script>

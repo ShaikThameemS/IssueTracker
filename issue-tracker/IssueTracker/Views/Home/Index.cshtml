@@ -1,0 +1,127 @@
+﻿@using IssueTracker.Entities
+@model IssueTracker.ViewModels.DashboardViewModel
+@{
+    ViewBag.Title = "Home Page";
+}
+
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+    <div class="col-lg-12 page-header">
+        <table class="dashboard-header">
+            <tr>
+                <td>@SharedStrings.DashboardTitle</td>
+                <td>
+                    <div class="project-select">
+                        @Html.LabelFor(model => model.ProjectId, htmlAttributes: new { @class = "control-label" })
+                        @Html.DropDownListFor(model => model.ProjectId, (SelectList)ViewBag.UsersList, new { @class = "form-control project-select", onchange = "$(this).closest('form').submit();" })
+                    </div>
+                </td>
+            </tr>
+        </table>
+    </div>
+}
+<div class="row">
+    <div class="col-sm-4">
+        <div class="panel panel-primary">
+            <div class="panel-heading">
+                <div class="row">
+                    <div class="col-xs-3">
+                        <i class="fa fa-comments fa-5x"></i>
+                    </div>
+                    <div class="col-xs-9 text-right">
+                        <div class="huge">@Model.QuestionCount</div>
+                        <div>@SharedStrings.DashboardQuestions</div>
+                    </div>
+                </div>
+            </div>
+            <a href="@Url.Action("Index", "Issues", new { searchType = IssueType.Question, searchProject = Model.ProjectId })">
+                <div class="panel-footer">
+                    <span class="pull-left">@SharedStrings.ViewDetails</span>
+                    <span class="pull-right"><i class="fa fa-arrow-circle-right"></i></span>
+                    <div class="clearfix"></div>
+                </div>
+            </a>
+        </div>
+    </div>
+    <div class="col-sm-4">
+        <div class="panel panel-green">
+            <div class="panel-heading">
+                <div class="row">
+                    <div class="col-xs-3">
+                        <i class="fa fa-tasks fa-5x"></i>
+                    </div>
+                    <div class="col-xs-9 text-right">
+                        <div class="huge">@Model.TaskCount</div>
+                        <div>@SharedStrings.DashboardTasks</div>
+                    </div>
+                </div>
+            </div>
+            <a href="@Url.Action("Index", "Issues", new { searchType = IssueType.Task, searchProject = Model.ProjectId })">
+                <div class="panel-footer">
+                    <span class="pull-left">@SharedStrings.ViewDetails</span>
+                    <span class="pull-right"><i class="fa fa-arrow-circle-right"></i></span>
+                    <div class="clearfix"></div>
+                </div>
+            </a>
+        </div>
+    </div>
+    <div class="col-sm-4">
+        <div class="panel panel-red">
+            <div class="panel-heading">
+                <div class="row">
+                    <div class="col-xs-3">
+                        <i class="fa fa-bug fa-5x"></i>
+                    </div>
+                    <div class="col-xs-9 text-right">
+                        <div class="huge">@Model.BugCount</div>
+                        <div>@SharedStrings.DashboardBugs</div>
+                    </div>
+                </div>
+            </div>
+            <a href="@Url.Action("Index", "Issues", new { searchType = IssueType.Bug, searchProject = Model.ProjectId })">
+                <div class="panel-footer">
+                    <span class="pull-left">@SharedStrings.ViewDetails</span>
+                    <span class="pull-right"><i class="fa fa-arrow-circle-right"></i></span>
+                    <div class="clearfix"></div>
+                </div>
+            </a>
+        </div>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-md-4">
+        <!-- /.panel -->
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                <i class="fa fa-pie-chart fa-fw"></i> @SharedStrings.DashboardCurrentStatus
+            </div>
+            <div class="panel-body">
+                <div id="chart_div"></div>
+                <a href="@Url.Action("Index", "Issues")" class="btn btn-default btn-block">@SharedStrings.ViewDetails</a>
+            </div>
+            <!-- /.panel-body -->
+        </div>
+        <!-- /.panel -->
+    </div>
+    <div class="col-md-8">
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                <i class="fa fa-bar-chart-o fa-fw"></i> @SharedStrings.DashboardRaisedVsResolved
+            </div>
+            <div class="panel-body">
+                <div id="bar_chart_div"></div>
+                <a href="@Url.Action("Index", "Issues")" class="btn btn-default btn-block">@SharedStrings.ViewDetails</a>
+            </div>
+            <!-- /.panel-body -->
+        </div>
+        <!-- /.panel -->
+    </div>
+</div>
+
+@section Scripts {
+    <script type="text/javascript" src="https://www.google.com/jsapi"></script>
+    @Html.Hidden("ProjectCode", Model.ProjectCode)
+    @Scripts.Render("~/bundles/charts")
+}

@@ -1,0 +1,45 @@
+﻿@model IssueTracker.ViewModels.CommentViewModel
+
+@{
+    ViewBag.Title = CommentStrings.TitleEdit;
+}
+
+<h2>@ViewBag.Title</h2>
+
+
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+    
+    <div class="form-horizontal">
+        <h4>@CommentStrings.EntityName</h4>
+        <hr />
+        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+        @Html.HiddenFor(model => model.Id)
+        @Html.HiddenFor(model => model.IssueId)
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.Text, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.TextAreaFor(model => model.Text, new { @class = "form-control" })
+                @Html.ValidationMessageFor(model => model.Text, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            <div class="col-md-offset-2 col-md-10">
+                <input type="submit" value="@SharedStrings.FormSave" class="btn btn-default" />
+            </div>
+        </div>
+    </div>
+}
+
+<div>
+    @Html.ActionLink(IssueStrings.BackToIssue, "Details", "Issues", new { id = Model.Issue.Code }, null)
+</div>
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+    @Scripts.Render("~/bundles/ckeditor")
+    @Scripts.Render("~/bundles/ckeditor-replace")
+}

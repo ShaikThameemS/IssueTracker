@@ -1,0 +1,33 @@
+﻿@using Microsoft.AspNet.Identity
+@using IssueTracker.Extensions;
+
+@if (Request.IsAuthenticated)
+{
+    using (Html.BeginForm("LogOff", "Account", FormMethod.Post, new { id = "logoutForm"}))
+    {
+        @Html.AntiForgeryToken()
+        <li><a href="javascript:document.getElementById('logoutForm').submit()">@AccountStrings.LogOut</a></li>
+        <li id="lang-select" class="lang-select">
+            <a href="#" title="@SharedStrings.SwitchLanguage">@ViewBag.LanguageNativeName</a>
+            <div>
+                @Html.ActionLink("English", null, new { culture = "en-US", id = Url.RequestContext.RouteData.Values["id"] }, new { @class = "lang-select-en" })
+                @Html.ActionLink("čeština", null, new { culture = "cs-CZ", id = Url.RequestContext.RouteData.Values["id"] }, new { @class = "lang-select-cs" })
+            </div>
+        </li>
+        <li>
+            <a href="@Url.Action("Index", "Manage")" class="@Html.ActivePage("Manage", "gn-selected")">
+                <div class="avatarBox">
+                    <img src="http://findicons.com/files/icons/2579/iphone_icons/30/salesman.png" />
+                </div>
+                @User.Identity.GetUserName()
+            </a>
+        </li>
+    }
+}
+else
+{
+    <ul class="nav navbar-nav navbar-right">
+        <li>@Html.ActionLink(AccountStrings.Register, "Register", "Account", routeValues: null, htmlAttributes: new { id = "registerLink" })</li>
+        <li>@Html.ActionLink(AccountStrings.LogIn, "Login", "Account", routeValues: null, htmlAttributes: new { id = "loginLink" })</li>
+    </ul>
+}

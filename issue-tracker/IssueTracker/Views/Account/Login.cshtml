@@ -1,0 +1,84 @@
+﻿@model IssueTracker.ViewModels.LoginViewModel
+@{
+    ViewBag.Title = AccountStrings.LogIn;
+}
+
+@section AddToHead {
+    <link href="@Url.Content("~/Content/signin.css")" rel="stylesheet" type="text/css" />
+}
+
+@*<form class="form-signin">
+@using (Html.BeginForm("Login", "Account", new { ReturnUrl = ViewBag.ReturnUrl }, FormMethod.Post, new { @class = "form-horizontal", role = "form" }))
+{
+    @Html.AntiForgeryToken()
+    <h2>@ViewBag.Title.</h2>
+    <h2 class="form-signin-heading">Please sign in</h2>
+    <label for="inputEmail" class="sr-only">Email address</label>
+    <input type="email" id="inputEmail" class="form-control" placeholder="Email address" required autofocus>
+    <label for="inputPassword" class="sr-only">Password</label>
+    <input type="password" id="inputPassword" class="form-control" placeholder="Password" required>
+    <div class="checkbox">
+        <label>
+            <input type="checkbox" value="remember-me"> Remember me
+        </label>
+    </div>
+    <button class="btn btn-lg btn-primary btn-block" type="submit">Sign in</button>
+</form>*@
+
+@*<h2>@ViewBag.Title.</h2>
+<div class="row">
+    <div class="col-md-8">*@
+        <section id="loginForm">
+            @using (Html.BeginForm("Login", "Account", new { ReturnUrl = ViewBag.ReturnUrl }, FormMethod.Post, new { @class = "form-signin", role = "form" }))
+            {
+                @*@Html.AntiForgeryToken()*@
+                <h2 class="form-signin-heading">@AccountStrings.PleaseSignIn</h2>
+                @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+                <div class="input-group">
+                    <span class="input-group-addon">
+                        <i class="fa fa-envelope"></i>
+                    </span>
+                    @Html.TextBoxFor(m => m.Email, new { @class = "form-control", placeholder = AccountStrings.PlaceholderEmailAddress, type = "email", autofocus = "" })
+                </div>
+                @Html.ValidationMessageFor(m => m.Email, "", new { @class = "text-danger" })
+
+                <div class="input-group">
+                    <span class="input-group-addon">
+                        <i class="fa fa-key"></i>
+                    </span>
+                    @Html.PasswordFor(m => m.Password, new { @class = "form-control", placeholder = AccountStrings.PlaceholderPassword, })
+                </div>
+                @Html.ValidationMessageFor(m => m.Password, "", new { @class = "text-danger", style = "display: block" })
+                <div class="checkbox" style="float: left">
+                    @Html.CheckBoxFor(m => m.RememberMe)
+                    @Html.LabelFor(m => m.RememberMe)
+                </div>
+                <div id="lang-select" class="lang-select lang-select-login" style="float: right">
+                    <a href="#" title="@SharedStrings.SwitchLanguage">@ViewBag.LanguageNativeName</a>
+                    <div>
+                        @Html.ActionLink("English", null, new { culture = "en-US", id = Url.RequestContext.RouteData.Values["id"] }, new { @class = "lang-select-en" })
+                        @Html.ActionLink("čeština", null, new { culture = "cs-CZ", id = Url.RequestContext.RouteData.Values["id"] }, new { @class = "lang-select-cs" })
+                    </div>
+                </div>
+                @*<input type="submit" value="Log in" class="btn btn-default" />*@
+                <button class="btn btn-lg btn-primary btn-block" type="submit">@AccountStrings.LogIn</button>
+                @*<p>
+                    @Html.ActionLink(AccountStrings.RegisterNewUser, "Register")
+                </p>*@
+                @* Enable this once you have account confirmation enabled for password reset functionality
+                    <p>
+                        @Html.ActionLink("Forgot your password?", "ForgotPassword")
+                    </p>*@
+            }
+</section>
+    @*</div>*@
+    @*<div class="col-md-4">
+        <section id="socialLoginForm">
+            @Html.Partial("_ExternalLoginsListPartial", new ExternalLoginListViewModel { ReturnUrl = ViewBag.ReturnUrl })
+        </section>
+    </div>*@
+@*</div>*@
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+}

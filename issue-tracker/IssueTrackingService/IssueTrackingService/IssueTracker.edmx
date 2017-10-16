@@ -1,0 +1,984 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+    <Schema Namespace="Model.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="AspNetRoles">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="Description" Type="nvarchar(max)" />
+          <Property Name="Name" Type="nvarchar" MaxLength="256" Nullable="false" />
+        </EntityType>
+        <EntityType Name="AspNetUserClaims">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="UserId" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="ClaimType" Type="nvarchar(max)" />
+          <Property Name="ClaimValue" Type="nvarchar(max)" />
+          <Property Name="ApplicationUser_Id" Type="uniqueidentifier" />
+        </EntityType>
+        <EntityType Name="AspNetUserLogins">
+          <Key>
+            <PropertyRef Name="LoginProvider" />
+            <PropertyRef Name="ProviderKey" />
+            <PropertyRef Name="UserId" />
+          </Key>
+          <Property Name="LoginProvider" Type="nvarchar" MaxLength="128" Nullable="false" />
+          <Property Name="ProviderKey" Type="nvarchar" MaxLength="128" Nullable="false" />
+          <Property Name="UserId" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="ApplicationUser_Id" Type="uniqueidentifier" />
+        </EntityType>
+        <EntityType Name="AspNetUserRoles">
+          <Key>
+            <PropertyRef Name="UserId" />
+            <PropertyRef Name="RoleId" />
+          </Key>
+          <Property Name="UserId" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="RoleId" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="ApplicationUser_Id" Type="uniqueidentifier" />
+        </EntityType>
+        <EntityType Name="AspNetUsers">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="Email" Type="nvarchar(max)" />
+          <Property Name="EmailConfirmed" Type="bit" Nullable="false" />
+          <Property Name="PasswordHash" Type="nvarchar(max)" />
+          <Property Name="SecurityStamp" Type="nvarchar(max)" />
+          <Property Name="PhoneNumber" Type="nvarchar(max)" />
+          <Property Name="PhoneNumberConfirmed" Type="bit" Nullable="false" />
+          <Property Name="TwoFactorEnabled" Type="bit" Nullable="false" />
+          <Property Name="LockoutEndDateUtc" Type="datetime" />
+          <Property Name="LockoutEnabled" Type="bit" Nullable="false" />
+          <Property Name="AccessFailedCount" Type="int" Nullable="false" />
+          <Property Name="UserName" Type="nvarchar(max)" />
+        </EntityType>
+        <!--Errors Found During Generation:
+warning 6002: The table/view 'IssueTracking.dbo.Attachment' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+        <EntityType Name="Attachment">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Data" Type="nvarchar(max)" />
+        </EntityType>
+        <EntityType Name="Comment">
+          <Key>
+            <PropertyRef Name="Id" />
+            <PropertyRef Name="CreatedAt" />
+          </Key>
+          <Property Name="Id" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="CreatedAt" Type="datetime" Nullable="false" />
+          <Property Name="IssueId" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="IssueCreatedAt" Type="datetime" Nullable="false" />
+          <Property Name="Active" Type="bit" Nullable="false" />
+          <Property Name="Text" Type="nvarchar(max)" Nullable="false" />
+          <Property Name="Posted" Type="datetime" />
+          <Property Name="AuthorId" Type="uniqueidentifier" />
+        </EntityType>
+        <EntityType Name="Issue">
+          <Key>
+            <PropertyRef Name="Id" />
+            <PropertyRef Name="CreatedAt" />
+          </Key>
+          <Property Name="Id" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="CreatedAt" Type="datetime" Nullable="false" />
+          <Property Name="ProjectId" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="ProjectCreatedAt" Type="datetime" Nullable="false" />
+          <Property Name="StateId" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="ReporterId" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="AssigneeId" Type="uniqueidentifier" />
+          <Property Name="Active" Type="bit" Nullable="false" />
+          <Property Name="Type" Type="int" Nullable="false" />
+          <Property Name="Name" Type="nvarchar" MaxLength="255" Nullable="false" />
+          <Property Name="Created" Type="datetime" Nullable="false" />
+          <Property Name="ResolvedAt" Type="datetime" />
+          <Property Name="Description" Type="nvarchar(max)" />
+          <Property Name="CodeNumber" Type="int" Nullable="false" />
+          <Property Name="Status" Type="nvarchar" MaxLength="1" />
+          <Property Name="Priority" Type="nvarchar" MaxLength="1" />
+          <Property Name="Attachment" Type="varchar(max)" />
+        </EntityType>
+        <EntityType Name="Project">
+          <Key>
+            <PropertyRef Name="Id" />
+            <PropertyRef Name="CreatedAt" />
+          </Key>
+          <Property Name="Id" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="CreatedAt" Type="datetime" Nullable="false" />
+          <Property Name="Title" Type="nvarchar" MaxLength="255" Nullable="false" />
+          <Property Name="Code" Type="nvarchar(max)" Nullable="false" />
+          <Property Name="Active" Type="bit" Nullable="false" />
+          <Property Name="OwnerId" Type="uniqueidentifier" Nullable="false" />
+        </EntityType>
+        <EntityType Name="ProjectApplicationUser">
+          <Key>
+            <PropertyRef Name="Project_Id" />
+            <PropertyRef Name="Project_CreatedAt" />
+            <PropertyRef Name="ApplicationUser_id" />
+          </Key>
+          <Property Name="Project_Id" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="Project_CreatedAt" Type="datetime" Nullable="false" />
+          <Property Name="ApplicationUser_id" Type="uniqueidentifier" Nullable="false" />
+        </EntityType>
+        <EntityType Name="State">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="Title" Type="nvarchar(max)" Nullable="false" />
+          <Property Name="IsInitial" Type="bit" Nullable="false" />
+          <Property Name="Colour" Type="nvarchar(max)" />
+          <Property Name="OrderIndex" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="StateWorkflow">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="FromStateId" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="ToStateId" Type="uniqueidentifier" Nullable="false" />
+        </EntityType>
+        <Association Name="FK_dbo_AspNetUserClaims_dbo_AspNetUsers_ApplicationUser_Id">
+          <End Role="AspNetUsers" Type="Self.AspNetUsers" Multiplicity="0..1" />
+          <End Role="AspNetUserClaims" Type="Self.AspNetUserClaims" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="AspNetUsers">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="AspNetUserClaims">
+              <PropertyRef Name="ApplicationUser_Id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_dbo_AspNetUserLogins_dbo_AspNetUsers_ApplicationUser_Id">
+          <End Role="AspNetUsers" Type="Self.AspNetUsers" Multiplicity="0..1" />
+          <End Role="AspNetUserLogins" Type="Self.AspNetUserLogins" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="AspNetUsers">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="AspNetUserLogins">
+              <PropertyRef Name="ApplicationUser_Id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_dbo_AspNetUserRoles_dbo_AspNetRoles_RoleId">
+          <End Role="AspNetRoles" Type="Self.AspNetRoles" Multiplicity="1" />
+          <End Role="AspNetUserRoles" Type="Self.AspNetUserRoles" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="AspNetRoles">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="AspNetUserRoles">
+              <PropertyRef Name="RoleId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_dbo_AspNetUserRoles_dbo_AspNetUsers_ApplicationUser_Id">
+          <End Role="AspNetUsers" Type="Self.AspNetUsers" Multiplicity="0..1" />
+          <End Role="AspNetUserRoles" Type="Self.AspNetUserRoles" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="AspNetUsers">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="AspNetUserRoles">
+              <PropertyRef Name="ApplicationUser_Id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_dbo_Comment_dbo_AspNetUsers_AuthorId">
+          <End Role="AspNetUsers" Type="Self.AspNetUsers" Multiplicity="0..1" />
+          <End Role="Comment" Type="Self.Comment" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="AspNetUsers">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Comment">
+              <PropertyRef Name="AuthorId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_dbo_Comment_dbo_Issue_IssueId_IssueCreatedAt">
+          <End Role="Issue" Type="Self.Issue" Multiplicity="1" />
+          <End Role="Comment" Type="Self.Comment" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Issue">
+              <PropertyRef Name="Id" />
+              <PropertyRef Name="CreatedAt" />
+            </Principal>
+            <Dependent Role="Comment">
+              <PropertyRef Name="IssueId" />
+              <PropertyRef Name="IssueCreatedAt" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_dbo_Issue_dbo_AspNetUsers_AssigneeId">
+          <End Role="AspNetUsers" Type="Self.AspNetUsers" Multiplicity="0..1" />
+          <End Role="Issue" Type="Self.Issue" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="AspNetUsers">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Issue">
+              <PropertyRef Name="AssigneeId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_dbo_Issue_dbo_AspNetUsers_ReporterId">
+          <End Role="AspNetUsers" Type="Self.AspNetUsers" Multiplicity="1" />
+          <End Role="Issue" Type="Self.Issue" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="AspNetUsers">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Issue">
+              <PropertyRef Name="ReporterId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_dbo_Issue_dbo_Project_ProjectId_ProjectCreatedAt">
+          <End Role="Project" Type="Self.Project" Multiplicity="1" />
+          <End Role="Issue" Type="Self.Issue" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Project">
+              <PropertyRef Name="Id" />
+              <PropertyRef Name="CreatedAt" />
+            </Principal>
+            <Dependent Role="Issue">
+              <PropertyRef Name="ProjectId" />
+              <PropertyRef Name="ProjectCreatedAt" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_dbo_Issue_dbo_State_StateId">
+          <End Role="State" Type="Self.State" Multiplicity="1" />
+          <End Role="Issue" Type="Self.Issue" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="State">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Issue">
+              <PropertyRef Name="StateId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_dbo_Project_dbo_AspNetUsers_OwnerId">
+          <End Role="AspNetUsers" Type="Self.AspNetUsers" Multiplicity="1" />
+          <End Role="Project" Type="Self.Project" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="AspNetUsers">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Project">
+              <PropertyRef Name="OwnerId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_dbo_ProjectApplicationUser_dbo_AspNetUsers_ApplicationUser_id">
+          <End Role="AspNetUsers" Type="Self.AspNetUsers" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="ProjectApplicationUser" Type="Self.ProjectApplicationUser" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="AspNetUsers">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="ProjectApplicationUser">
+              <PropertyRef Name="ApplicationUser_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_dbo_ProjectApplicationUser_dbo_Project_Project_Id_Project_CreatedAt">
+          <End Role="Project" Type="Self.Project" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="ProjectApplicationUser" Type="Self.ProjectApplicationUser" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Project">
+              <PropertyRef Name="Id" />
+              <PropertyRef Name="CreatedAt" />
+            </Principal>
+            <Dependent Role="ProjectApplicationUser">
+              <PropertyRef Name="Project_Id" />
+              <PropertyRef Name="Project_CreatedAt" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_dbo_StateWorkflow_dbo_State_FromStateId">
+          <End Role="State" Type="Self.State" Multiplicity="1" />
+          <End Role="StateWorkflow" Type="Self.StateWorkflow" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="State">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="StateWorkflow">
+              <PropertyRef Name="FromStateId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_dbo_StateWorkflow_dbo_State_ToStateId">
+          <End Role="State" Type="Self.State" Multiplicity="1" />
+          <End Role="StateWorkflow" Type="Self.StateWorkflow" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="State">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="StateWorkflow">
+              <PropertyRef Name="ToStateId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="ModelStoreContainer">
+          <EntitySet Name="AspNetRoles" EntityType="Self.AspNetRoles" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="AspNetUserClaims" EntityType="Self.AspNetUserClaims" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="AspNetUserLogins" EntityType="Self.AspNetUserLogins" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="AspNetUserRoles" EntityType="Self.AspNetUserRoles" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="AspNetUsers" EntityType="Self.AspNetUsers" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Comment" EntityType="Self.Comment" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Issue" EntityType="Self.Issue" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Project" EntityType="Self.Project" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="ProjectApplicationUser" EntityType="Self.ProjectApplicationUser" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="State" EntityType="Self.State" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="StateWorkflow" EntityType="Self.StateWorkflow" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Attachment" EntityType="Self.Attachment" store:Type="Tables" store:Schema="dbo">
+            <DefiningQuery>SELECT 
+    [Attachment].[Id] AS [Id], 
+    [Attachment].[Data] AS [Data]
+    FROM [dbo].[Attachment] AS [Attachment]</DefiningQuery>
+          </EntitySet>
+          <AssociationSet Name="FK_dbo_AspNetUserClaims_dbo_AspNetUsers_ApplicationUser_Id" Association="Self.FK_dbo_AspNetUserClaims_dbo_AspNetUsers_ApplicationUser_Id">
+            <End Role="AspNetUsers" EntitySet="AspNetUsers" />
+            <End Role="AspNetUserClaims" EntitySet="AspNetUserClaims" />
+          </AssociationSet>
+          <AssociationSet Name="FK_dbo_AspNetUserLogins_dbo_AspNetUsers_ApplicationUser_Id" Association="Self.FK_dbo_AspNetUserLogins_dbo_AspNetUsers_ApplicationUser_Id">
+            <End Role="AspNetUsers" EntitySet="AspNetUsers" />
+            <End Role="AspNetUserLogins" EntitySet="AspNetUserLogins" />
+          </AssociationSet>
+          <AssociationSet Name="FK_dbo_AspNetUserRoles_dbo_AspNetRoles_RoleId" Association="Self.FK_dbo_AspNetUserRoles_dbo_AspNetRoles_RoleId">
+            <End Role="AspNetRoles" EntitySet="AspNetRoles" />
+            <End Role="AspNetUserRoles" EntitySet="AspNetUserRoles" />
+          </AssociationSet>
+          <AssociationSet Name="FK_dbo_AspNetUserRoles_dbo_AspNetUsers_ApplicationUser_Id" Association="Self.FK_dbo_AspNetUserRoles_dbo_AspNetUsers_ApplicationUser_Id">
+            <End Role="AspNetUsers" EntitySet="AspNetUsers" />
+            <End Role="AspNetUserRoles" EntitySet="AspNetUserRoles" />
+          </AssociationSet>
+          <AssociationSet Name="FK_dbo_Comment_dbo_AspNetUsers_AuthorId" Association="Self.FK_dbo_Comment_dbo_AspNetUsers_AuthorId">
+            <End Role="AspNetUsers" EntitySet="AspNetUsers" />
+            <End Role="Comment" EntitySet="Comment" />
+          </AssociationSet>
+          <AssociationSet Name="FK_dbo_Comment_dbo_Issue_IssueId_IssueCreatedAt" Association="Self.FK_dbo_Comment_dbo_Issue_IssueId_IssueCreatedAt">
+            <End Role="Issue" EntitySet="Issue" />
+            <End Role="Comment" EntitySet="Comment" />
+          </AssociationSet>
+          <AssociationSet Name="FK_dbo_Issue_dbo_AspNetUsers_AssigneeId" Association="Self.FK_dbo_Issue_dbo_AspNetUsers_AssigneeId">
+            <End Role="AspNetUsers" EntitySet="AspNetUsers" />
+            <End Role="Issue" EntitySet="Issue" />
+          </AssociationSet>
+          <AssociationSet Name="FK_dbo_Issue_dbo_AspNetUsers_ReporterId" Association="Self.FK_dbo_Issue_dbo_AspNetUsers_ReporterId">
+            <End Role="AspNetUsers" EntitySet="AspNetUsers" />
+            <End Role="Issue" EntitySet="Issue" />
+          </AssociationSet>
+          <AssociationSet Name="FK_dbo_Issue_dbo_Project_ProjectId_ProjectCreatedAt" Association="Self.FK_dbo_Issue_dbo_Project_ProjectId_ProjectCreatedAt">
+            <End Role="Project" EntitySet="Project" />
+            <End Role="Issue" EntitySet="Issue" />
+          </AssociationSet>
+          <AssociationSet Name="FK_dbo_Issue_dbo_State_StateId" Association="Self.FK_dbo_Issue_dbo_State_StateId">
+            <End Role="State" EntitySet="State" />
+            <End Role="Issue" EntitySet="Issue" />
+          </AssociationSet>
+          <AssociationSet Name="FK_dbo_Project_dbo_AspNetUsers_OwnerId" Association="Self.FK_dbo_Project_dbo_AspNetUsers_OwnerId">
+            <End Role="AspNetUsers" EntitySet="AspNetUsers" />
+            <End Role="Project" EntitySet="Project" />
+          </AssociationSet>
+          <AssociationSet Name="FK_dbo_ProjectApplicationUser_dbo_AspNetUsers_ApplicationUser_id" Association="Self.FK_dbo_ProjectApplicationUser_dbo_AspNetUsers_ApplicationUser_id">
+            <End Role="AspNetUsers" EntitySet="AspNetUsers" />
+            <End Role="ProjectApplicationUser" EntitySet="ProjectApplicationUser" />
+          </AssociationSet>
+          <AssociationSet Name="FK_dbo_ProjectApplicationUser_dbo_Project_Project_Id_Project_CreatedAt" Association="Self.FK_dbo_ProjectApplicationUser_dbo_Project_Project_Id_Project_CreatedAt">
+            <End Role="Project" EntitySet="Project" />
+            <End Role="ProjectApplicationUser" EntitySet="ProjectApplicationUser" />
+          </AssociationSet>
+          <AssociationSet Name="FK_dbo_StateWorkflow_dbo_State_FromStateId" Association="Self.FK_dbo_StateWorkflow_dbo_State_FromStateId">
+            <End Role="State" EntitySet="State" />
+            <End Role="StateWorkflow" EntitySet="StateWorkflow" />
+          </AssociationSet>
+          <AssociationSet Name="FK_dbo_StateWorkflow_dbo_State_ToStateId" Association="Self.FK_dbo_StateWorkflow_dbo_State_ToStateId">
+            <End Role="State" EntitySet="State" />
+            <End Role="StateWorkflow" EntitySet="StateWorkflow" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema></edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="Model" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="AspNetUserClaim">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="UserId" Type="Guid" Nullable="false" />
+          <Property Name="ClaimType" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="ClaimValue" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="ApplicationUser_Id" Type="Guid" />
+          <NavigationProperty Name="AspNetUser" Relationship="Self.FK_dbo_AspNetUserClaims_dbo_AspNetUsers_ApplicationUser_Id" FromRole="AspNetUserClaims" ToRole="AspNetUsers" />
+        </EntityType>
+        <EntityType Name="AspNetUserLogin">
+          <Key>
+            <PropertyRef Name="LoginProvider" />
+            <PropertyRef Name="ProviderKey" />
+            <PropertyRef Name="UserId" />
+          </Key>
+          <Property Name="LoginProvider" Type="String" MaxLength="128" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="ProviderKey" Type="String" MaxLength="128" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="UserId" Type="Guid" Nullable="false" />
+          <Property Name="ApplicationUser_Id" Type="Guid" />
+          <NavigationProperty Name="AspNetUser" Relationship="Self.FK_dbo_AspNetUserLogins_dbo_AspNetUsers_ApplicationUser_Id" FromRole="AspNetUserLogins" ToRole="AspNetUsers" />
+        </EntityType>
+        <EntityType Name="AspNetUserRole">
+          <Key>
+            <PropertyRef Name="UserId" />
+            <PropertyRef Name="RoleId" />
+          </Key>
+          <Property Name="UserId" Type="Guid" Nullable="false" />
+          <Property Name="RoleId" Type="Guid" Nullable="false" />
+          <Property Name="ApplicationUser_Id" Type="Guid" />
+          <NavigationProperty Name="AspNetUser" Relationship="Self.FK_dbo_AspNetUserRoles_dbo_AspNetUsers_ApplicationUser_Id" FromRole="AspNetUserRoles" ToRole="AspNetUsers" />
+          <NavigationProperty Name="AspNetRoles" Relationship="Model.FK_dbo_AspNetUserRoles_dbo_AspNetRoles_RoleId" FromRole="AspNetUserRole" ToRole="AspNetRoles" />
+        </EntityType>
+        <EntityType Name="AspNetUser">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Guid" Nullable="false" />
+          <Property Name="Email" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="EmailConfirmed" Type="Boolean" Nullable="false" />
+          <Property Name="PasswordHash" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="SecurityStamp" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="PhoneNumber" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="PhoneNumberConfirmed" Type="Boolean" Nullable="false" />
+          <Property Name="TwoFactorEnabled" Type="Boolean" Nullable="false" />
+          <Property Name="LockoutEndDateUtc" Type="DateTime" Precision="3" />
+          <Property Name="LockoutEnabled" Type="Boolean" Nullable="false" />
+          <Property Name="AccessFailedCount" Type="Int32" Nullable="false" />
+          <Property Name="UserName" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="AspNetUserClaims" Relationship="Self.FK_dbo_AspNetUserClaims_dbo_AspNetUsers_ApplicationUser_Id" FromRole="AspNetUsers" ToRole="AspNetUserClaims" />
+          <NavigationProperty Name="AspNetUserLogins" Relationship="Self.FK_dbo_AspNetUserLogins_dbo_AspNetUsers_ApplicationUser_Id" FromRole="AspNetUsers" ToRole="AspNetUserLogins" />
+          <NavigationProperty Name="AspNetUserRoles" Relationship="Self.FK_dbo_AspNetUserRoles_dbo_AspNetUsers_ApplicationUser_Id" FromRole="AspNetUsers" ToRole="AspNetUserRoles" />
+          <NavigationProperty Name="Comments" Relationship="Self.FK_dbo_Comment_dbo_AspNetUsers_AuthorId" FromRole="AspNetUsers" ToRole="Comment" />
+          <NavigationProperty Name="Issues" Relationship="Self.FK_dbo_Issue_dbo_AspNetUsers_AssigneeId" FromRole="AspNetUsers" ToRole="Issue" />
+          <NavigationProperty Name="Issues1" Relationship="Self.FK_dbo_Issue_dbo_AspNetUsers_ReporterId" FromRole="AspNetUsers" ToRole="Issue" />
+          <NavigationProperty Name="Projects" Relationship="Self.FK_dbo_Project_dbo_AspNetUsers_OwnerId" FromRole="AspNetUsers" ToRole="Project" />
+          <NavigationProperty Name="Projects1" Relationship="Self.ProjectApplicationUser" FromRole="AspNetUsers" ToRole="Project" />
+        </EntityType>
+        <EntityType Name="Comment">
+          <Key>
+            <PropertyRef Name="Id" />
+            <PropertyRef Name="CreatedAt" />
+          </Key>
+          <Property Name="Id" Type="Guid" Nullable="false" />
+          <Property Name="CreatedAt" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="IssueId" Type="Guid" Nullable="false" />
+          <Property Name="IssueCreatedAt" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="Active" Type="Boolean" Nullable="false" />
+          <Property Name="Text" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Posted" Type="DateTime" Precision="3" />
+          <Property Name="AuthorId" Type="Guid" />
+          <NavigationProperty Name="AspNetUser" Relationship="Self.FK_dbo_Comment_dbo_AspNetUsers_AuthorId" FromRole="Comment" ToRole="AspNetUsers" />
+          <NavigationProperty Name="Issue" Relationship="Self.FK_dbo_Comment_dbo_Issue_IssueId_IssueCreatedAt" FromRole="Comment" ToRole="Issue" />
+        </EntityType>
+        <EntityType Name="Issue">
+          <Key>
+            <PropertyRef Name="Id" />
+            <PropertyRef Name="CreatedAt" />
+          </Key>
+          <Property Name="Id" Type="Guid" Nullable="false" />
+          <Property Name="CreatedAt" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="ProjectId" Type="Guid" Nullable="false" />
+          <Property Name="ProjectCreatedAt" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="StateId" Type="Guid" Nullable="false" />
+          <Property Name="ReporterId" Type="Guid" Nullable="false" />
+          <Property Name="AssigneeId" Type="Guid" />
+          <Property Name="Active" Type="Boolean" Nullable="false" />
+          <Property Name="Type" Type="Int32" Nullable="false" />
+          <Property Name="Name" Type="String" MaxLength="255" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Created" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="ResolvedAt" Type="DateTime" Precision="3" />
+          <Property Name="Description" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="CodeNumber" Type="Int32" Nullable="false" />
+          <Property Name="Status" Type="String" MaxLength="1" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="AspNetUser" Relationship="Self.FK_dbo_Issue_dbo_AspNetUsers_AssigneeId" FromRole="Issue" ToRole="AspNetUsers" />
+          <NavigationProperty Name="AspNetUser1" Relationship="Self.FK_dbo_Issue_dbo_AspNetUsers_ReporterId" FromRole="Issue" ToRole="AspNetUsers" />
+          <NavigationProperty Name="Comments" Relationship="Self.FK_dbo_Comment_dbo_Issue_IssueId_IssueCreatedAt" FromRole="Issue" ToRole="Comment" />
+          <NavigationProperty Name="Project" Relationship="Self.FK_dbo_Issue_dbo_Project_ProjectId_ProjectCreatedAt" FromRole="Issue" ToRole="Project" />
+          <NavigationProperty Name="State" Relationship="Self.FK_dbo_Issue_dbo_State_StateId" FromRole="Issue" ToRole="State" />
+          <Property Name="Priority" Type="String" MaxLength="1" FixedLength="false" Unicode="true" />
+          <Property Name="Attachment" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+        </EntityType>
+        <EntityType Name="Project">
+          <Key>
+            <PropertyRef Name="Id" />
+            <PropertyRef Name="CreatedAt" />
+          </Key>
+          <Property Name="Id" Type="Guid" Nullable="false" />
+          <Property Name="CreatedAt" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="Title" Type="String" MaxLength="255" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Code" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Active" Type="Boolean" Nullable="false" />
+          <Property Name="OwnerId" Type="Guid" Nullable="false" />
+          <NavigationProperty Name="AspNetUser" Relationship="Self.FK_dbo_Project_dbo_AspNetUsers_OwnerId" FromRole="Project" ToRole="AspNetUsers" />
+          <NavigationProperty Name="Issues" Relationship="Self.FK_dbo_Issue_dbo_Project_ProjectId_ProjectCreatedAt" FromRole="Project" ToRole="Issue" />
+          <NavigationProperty Name="AspNetUsers" Relationship="Self.ProjectApplicationUser" FromRole="Project" ToRole="AspNetUsers" />
+        </EntityType>
+        <EntityType Name="State">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Guid" Nullable="false" />
+          <Property Name="Title" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="IsInitial" Type="Boolean" Nullable="false" />
+          <Property Name="Colour" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="OrderIndex" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="Issues" Relationship="Self.FK_dbo_Issue_dbo_State_StateId" FromRole="State" ToRole="Issue" />
+          <NavigationProperty Name="StateWorkflows" Relationship="Self.FK_dbo_StateWorkflow_dbo_State_FromStateId" FromRole="State" ToRole="StateWorkflow" />
+          <NavigationProperty Name="StateWorkflows1" Relationship="Self.FK_dbo_StateWorkflow_dbo_State_ToStateId" FromRole="State" ToRole="StateWorkflow" />
+        </EntityType>
+        <EntityType Name="StateWorkflow">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Guid" Nullable="false" />
+          <Property Name="FromStateId" Type="Guid" Nullable="false" />
+          <Property Name="ToStateId" Type="Guid" Nullable="false" />
+          <NavigationProperty Name="State" Relationship="Self.FK_dbo_StateWorkflow_dbo_State_FromStateId" FromRole="StateWorkflow" ToRole="State" />
+          <NavigationProperty Name="State1" Relationship="Self.FK_dbo_StateWorkflow_dbo_State_ToStateId" FromRole="StateWorkflow" ToRole="State" />
+        </EntityType>
+        <Association Name="FK_dbo_AspNetUserClaims_dbo_AspNetUsers_ApplicationUser_Id">
+          <End Role="AspNetUsers" Type="Self.AspNetUser" Multiplicity="0..1" />
+          <End Role="AspNetUserClaims" Type="Self.AspNetUserClaim" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="AspNetUsers">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="AspNetUserClaims">
+              <PropertyRef Name="ApplicationUser_Id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_dbo_AspNetUserLogins_dbo_AspNetUsers_ApplicationUser_Id">
+          <End Role="AspNetUsers" Type="Self.AspNetUser" Multiplicity="0..1" />
+          <End Role="AspNetUserLogins" Type="Self.AspNetUserLogin" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="AspNetUsers">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="AspNetUserLogins">
+              <PropertyRef Name="ApplicationUser_Id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_dbo_AspNetUserRoles_dbo_AspNetUsers_ApplicationUser_Id">
+          <End Role="AspNetUsers" Type="Self.AspNetUser" Multiplicity="0..1" />
+          <End Role="AspNetUserRoles" Type="Self.AspNetUserRole" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="AspNetUsers">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="AspNetUserRoles">
+              <PropertyRef Name="ApplicationUser_Id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_dbo_Comment_dbo_AspNetUsers_AuthorId">
+          <End Role="AspNetUsers" Type="Self.AspNetUser" Multiplicity="0..1" />
+          <End Role="Comment" Type="Self.Comment" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="AspNetUsers">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Comment">
+              <PropertyRef Name="AuthorId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_dbo_Issue_dbo_AspNetUsers_AssigneeId">
+          <End Role="AspNetUsers" Type="Self.AspNetUser" Multiplicity="0..1" />
+          <End Role="Issue" Type="Self.Issue" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="AspNetUsers">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Issue">
+              <PropertyRef Name="AssigneeId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_dbo_Issue_dbo_AspNetUsers_ReporterId">
+          <End Role="AspNetUsers" Type="Self.AspNetUser" Multiplicity="1" />
+          <End Role="Issue" Type="Self.Issue" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="AspNetUsers">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Issue">
+              <PropertyRef Name="ReporterId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_dbo_Project_dbo_AspNetUsers_OwnerId">
+          <End Role="AspNetUsers" Type="Self.AspNetUser" Multiplicity="1" />
+          <End Role="Project" Type="Self.Project" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="AspNetUsers">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Project">
+              <PropertyRef Name="OwnerId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_dbo_Comment_dbo_Issue_IssueId_IssueCreatedAt">
+          <End Role="Issue" Type="Self.Issue" Multiplicity="1" />
+          <End Role="Comment" Type="Self.Comment" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Issue">
+              <PropertyRef Name="Id" />
+              <PropertyRef Name="CreatedAt" />
+            </Principal>
+            <Dependent Role="Comment">
+              <PropertyRef Name="IssueId" />
+              <PropertyRef Name="IssueCreatedAt" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_dbo_Issue_dbo_Project_ProjectId_ProjectCreatedAt">
+          <End Role="Project" Type="Self.Project" Multiplicity="1" />
+          <End Role="Issue" Type="Self.Issue" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Project">
+              <PropertyRef Name="Id" />
+              <PropertyRef Name="CreatedAt" />
+            </Principal>
+            <Dependent Role="Issue">
+              <PropertyRef Name="ProjectId" />
+              <PropertyRef Name="ProjectCreatedAt" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_dbo_Issue_dbo_State_StateId">
+          <End Role="State" Type="Self.State" Multiplicity="1" />
+          <End Role="Issue" Type="Self.Issue" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="State">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Issue">
+              <PropertyRef Name="StateId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_dbo_StateWorkflow_dbo_State_FromStateId">
+          <End Role="State" Type="Self.State" Multiplicity="1" />
+          <End Role="StateWorkflow" Type="Self.StateWorkflow" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="State">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="StateWorkflow">
+              <PropertyRef Name="FromStateId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_dbo_StateWorkflow_dbo_State_ToStateId">
+          <End Role="State" Type="Self.State" Multiplicity="1" />
+          <End Role="StateWorkflow" Type="Self.StateWorkflow" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="State">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="StateWorkflow">
+              <PropertyRef Name="ToStateId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="ProjectApplicationUser">
+          <End Role="AspNetUsers" Type="Self.AspNetUser" Multiplicity="*" />
+          <End Role="Project" Type="Self.Project" Multiplicity="*" />
+        </Association>
+        <EntityContainer Name="Entities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="AspNetUserClaims" EntityType="Self.AspNetUserClaim" />
+          <EntitySet Name="AspNetUserLogins" EntityType="Self.AspNetUserLogin" />
+          <EntitySet Name="AspNetUserRoles" EntityType="Self.AspNetUserRole" />
+          <EntitySet Name="AspNetUsers" EntityType="Self.AspNetUser" />
+          <EntitySet Name="Comments" EntityType="Self.Comment" />
+          <EntitySet Name="Issues" EntityType="Self.Issue" />
+          <EntitySet Name="Projects" EntityType="Self.Project" />
+          <EntitySet Name="States" EntityType="Self.State" />
+          <EntitySet Name="StateWorkflows" EntityType="Self.StateWorkflow" />
+          <AssociationSet Name="FK_dbo_AspNetUserClaims_dbo_AspNetUsers_ApplicationUser_Id" Association="Self.FK_dbo_AspNetUserClaims_dbo_AspNetUsers_ApplicationUser_Id">
+            <End Role="AspNetUsers" EntitySet="AspNetUsers" />
+            <End Role="AspNetUserClaims" EntitySet="AspNetUserClaims" />
+          </AssociationSet>
+          <AssociationSet Name="FK_dbo_AspNetUserLogins_dbo_AspNetUsers_ApplicationUser_Id" Association="Self.FK_dbo_AspNetUserLogins_dbo_AspNetUsers_ApplicationUser_Id">
+            <End Role="AspNetUsers" EntitySet="AspNetUsers" />
+            <End Role="AspNetUserLogins" EntitySet="AspNetUserLogins" />
+          </AssociationSet>
+          <AssociationSet Name="FK_dbo_AspNetUserRoles_dbo_AspNetUsers_ApplicationUser_Id" Association="Self.FK_dbo_AspNetUserRoles_dbo_AspNetUsers_ApplicationUser_Id">
+            <End Role="AspNetUsers" EntitySet="AspNetUsers" />
+            <End Role="AspNetUserRoles" EntitySet="AspNetUserRoles" />
+          </AssociationSet>
+          <AssociationSet Name="FK_dbo_Comment_dbo_AspNetUsers_AuthorId" Association="Self.FK_dbo_Comment_dbo_AspNetUsers_AuthorId">
+            <End Role="AspNetUsers" EntitySet="AspNetUsers" />
+            <End Role="Comment" EntitySet="Comments" />
+          </AssociationSet>
+          <AssociationSet Name="FK_dbo_Issue_dbo_AspNetUsers_AssigneeId" Association="Self.FK_dbo_Issue_dbo_AspNetUsers_AssigneeId">
+            <End Role="AspNetUsers" EntitySet="AspNetUsers" />
+            <End Role="Issue" EntitySet="Issues" />
+          </AssociationSet>
+          <AssociationSet Name="FK_dbo_Issue_dbo_AspNetUsers_ReporterId" Association="Self.FK_dbo_Issue_dbo_AspNetUsers_ReporterId">
+            <End Role="AspNetUsers" EntitySet="AspNetUsers" />
+            <End Role="Issue" EntitySet="Issues" />
+          </AssociationSet>
+          <AssociationSet Name="FK_dbo_Project_dbo_AspNetUsers_OwnerId" Association="Self.FK_dbo_Project_dbo_AspNetUsers_OwnerId">
+            <End Role="AspNetUsers" EntitySet="AspNetUsers" />
+            <End Role="Project" EntitySet="Projects" />
+          </AssociationSet>
+          <AssociationSet Name="FK_dbo_Comment_dbo_Issue_IssueId_IssueCreatedAt" Association="Self.FK_dbo_Comment_dbo_Issue_IssueId_IssueCreatedAt">
+            <End Role="Issue" EntitySet="Issues" />
+            <End Role="Comment" EntitySet="Comments" />
+          </AssociationSet>
+          <AssociationSet Name="FK_dbo_Issue_dbo_Project_ProjectId_ProjectCreatedAt" Association="Self.FK_dbo_Issue_dbo_Project_ProjectId_ProjectCreatedAt">
+            <End Role="Project" EntitySet="Projects" />
+            <End Role="Issue" EntitySet="Issues" />
+          </AssociationSet>
+          <AssociationSet Name="FK_dbo_Issue_dbo_State_StateId" Association="Self.FK_dbo_Issue_dbo_State_StateId">
+            <End Role="State" EntitySet="States" />
+            <End Role="Issue" EntitySet="Issues" />
+          </AssociationSet>
+          <AssociationSet Name="FK_dbo_StateWorkflow_dbo_State_FromStateId" Association="Self.FK_dbo_StateWorkflow_dbo_State_FromStateId">
+            <End Role="State" EntitySet="States" />
+            <End Role="StateWorkflow" EntitySet="StateWorkflows" />
+          </AssociationSet>
+          <AssociationSet Name="FK_dbo_StateWorkflow_dbo_State_ToStateId" Association="Self.FK_dbo_StateWorkflow_dbo_State_ToStateId">
+            <End Role="State" EntitySet="States" />
+            <End Role="StateWorkflow" EntitySet="StateWorkflows" />
+          </AssociationSet>
+          <AssociationSet Name="ProjectApplicationUser" Association="Self.ProjectApplicationUser">
+            <End Role="AspNetUsers" EntitySet="AspNetUsers" />
+            <End Role="Project" EntitySet="Projects" />
+          </AssociationSet>
+          <EntitySet Name="Attachments" EntityType="Model.Attachment" />
+          <EntitySet Name="AspNetRoles" EntityType="Model.AspNetRoles" />
+          <AssociationSet Name="FK_dbo_AspNetUserRoles_dbo_AspNetRoles_RoleId" Association="Model.FK_dbo_AspNetUserRoles_dbo_AspNetRoles_RoleId">
+            <End Role="AspNetRoles" EntitySet="AspNetRoles" />
+            <End Role="AspNetUserRole" EntitySet="AspNetUserRoles" />
+          </AssociationSet>
+        </EntityContainer>
+        <EntityType Name="Attachment">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Data" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+        </EntityType>
+        <EntityType Name="AspNetRoles">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Guid" Nullable="false" />
+          <Property Name="Description" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="Name" Type="String" Nullable="false" MaxLength="256" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="AspNetUserRoles" Relationship="Model.FK_dbo_AspNetUserRoles_dbo_AspNetRoles_RoleId" FromRole="AspNetRoles" ToRole="AspNetUserRole" />
+        </EntityType>
+        <Association Name="FK_dbo_AspNetUserRoles_dbo_AspNetRoles_RoleId">
+          <End Type="Model.AspNetRoles" Role="AspNetRoles" Multiplicity="1" />
+          <End Type="Model.AspNetUserRole" Role="AspNetUserRole" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="AspNetRoles">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="AspNetUserRole">
+              <PropertyRef Name="RoleId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="ModelStoreContainer" CdmEntityContainer="Entities">
+          <EntitySetMapping Name="AspNetUserClaims">
+            <EntityTypeMapping TypeName="Model.AspNetUserClaim">
+              <MappingFragment StoreEntitySet="AspNetUserClaims">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="UserId" ColumnName="UserId" />
+                <ScalarProperty Name="ClaimType" ColumnName="ClaimType" />
+                <ScalarProperty Name="ClaimValue" ColumnName="ClaimValue" />
+                <ScalarProperty Name="ApplicationUser_Id" ColumnName="ApplicationUser_Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="AspNetUserLogins">
+            <EntityTypeMapping TypeName="Model.AspNetUserLogin">
+              <MappingFragment StoreEntitySet="AspNetUserLogins">
+                <ScalarProperty Name="LoginProvider" ColumnName="LoginProvider" />
+                <ScalarProperty Name="ProviderKey" ColumnName="ProviderKey" />
+                <ScalarProperty Name="UserId" ColumnName="UserId" />
+                <ScalarProperty Name="ApplicationUser_Id" ColumnName="ApplicationUser_Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="AspNetUserRoles">
+            <EntityTypeMapping TypeName="Model.AspNetUserRole">
+              <MappingFragment StoreEntitySet="AspNetUserRoles">
+                <ScalarProperty Name="UserId" ColumnName="UserId" />
+                <ScalarProperty Name="RoleId" ColumnName="RoleId" />
+                <ScalarProperty Name="ApplicationUser_Id" ColumnName="ApplicationUser_Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="AspNetUsers">
+            <EntityTypeMapping TypeName="Model.AspNetUser">
+              <MappingFragment StoreEntitySet="AspNetUsers">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="Email" ColumnName="Email" />
+                <ScalarProperty Name="EmailConfirmed" ColumnName="EmailConfirmed" />
+                <ScalarProperty Name="PasswordHash" ColumnName="PasswordHash" />
+                <ScalarProperty Name="SecurityStamp" ColumnName="SecurityStamp" />
+                <ScalarProperty Name="PhoneNumber" ColumnName="PhoneNumber" />
+                <ScalarProperty Name="PhoneNumberConfirmed" ColumnName="PhoneNumberConfirmed" />
+                <ScalarProperty Name="TwoFactorEnabled" ColumnName="TwoFactorEnabled" />
+                <ScalarProperty Name="LockoutEndDateUtc" ColumnName="LockoutEndDateUtc" />
+                <ScalarProperty Name="LockoutEnabled" ColumnName="LockoutEnabled" />
+                <ScalarProperty Name="AccessFailedCount" ColumnName="AccessFailedCount" />
+                <ScalarProperty Name="UserName" ColumnName="UserName" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Comments">
+            <EntityTypeMapping TypeName="Model.Comment">
+              <MappingFragment StoreEntitySet="Comment">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="CreatedAt" ColumnName="CreatedAt" />
+                <ScalarProperty Name="IssueId" ColumnName="IssueId" />
+                <ScalarProperty Name="IssueCreatedAt" ColumnName="IssueCreatedAt" />
+                <ScalarProperty Name="Active" ColumnName="Active" />
+                <ScalarProperty Name="Text" ColumnName="Text" />
+                <ScalarProperty Name="Posted" ColumnName="Posted" />
+                <ScalarProperty Name="AuthorId" ColumnName="AuthorId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Issues">
+            <EntityTypeMapping TypeName="Model.Issue">
+              <MappingFragment StoreEntitySet="Issue">
+                <ScalarProperty Name="Attachment" ColumnName="Attachment" />
+                <ScalarProperty Name="Priority" ColumnName="Priority" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="CreatedAt" ColumnName="CreatedAt" />
+                <ScalarProperty Name="ProjectId" ColumnName="ProjectId" />
+                <ScalarProperty Name="ProjectCreatedAt" ColumnName="ProjectCreatedAt" />
+                <ScalarProperty Name="StateId" ColumnName="StateId" />
+                <ScalarProperty Name="ReporterId" ColumnName="ReporterId" />
+                <ScalarProperty Name="AssigneeId" ColumnName="AssigneeId" />
+                <ScalarProperty Name="Active" ColumnName="Active" />
+                <ScalarProperty Name="Type" ColumnName="Type" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="Created" ColumnName="Created" />
+                <ScalarProperty Name="ResolvedAt" ColumnName="ResolvedAt" />
+                <ScalarProperty Name="Description" ColumnName="Description" />
+                <ScalarProperty Name="CodeNumber" ColumnName="CodeNumber" />
+                <ScalarProperty Name="Status" ColumnName="Status" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Projects">
+            <EntityTypeMapping TypeName="Model.Project">
+              <MappingFragment StoreEntitySet="Project">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="CreatedAt" ColumnName="CreatedAt" />
+                <ScalarProperty Name="Title" ColumnName="Title" />
+                <ScalarProperty Name="Code" ColumnName="Code" />
+                <ScalarProperty Name="Active" ColumnName="Active" />
+                <ScalarProperty Name="OwnerId" ColumnName="OwnerId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="States">
+            <EntityTypeMapping TypeName="Model.State">
+              <MappingFragment StoreEntitySet="State">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="Title" ColumnName="Title" />
+                <ScalarProperty Name="IsInitial" ColumnName="IsInitial" />
+                <ScalarProperty Name="Colour" ColumnName="Colour" />
+                <ScalarProperty Name="OrderIndex" ColumnName="OrderIndex" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="StateWorkflows">
+            <EntityTypeMapping TypeName="Model.StateWorkflow">
+              <MappingFragment StoreEntitySet="StateWorkflow">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="FromStateId" ColumnName="FromStateId" />
+                <ScalarProperty Name="ToStateId" ColumnName="ToStateId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <AssociationSetMapping Name="ProjectApplicationUser" TypeName="Model.ProjectApplicationUser" StoreEntitySet="ProjectApplicationUser">
+            <EndProperty Name="AspNetUsers">
+              <ScalarProperty Name="Id" ColumnName="ApplicationUser_id" />
+            </EndProperty>
+            <EndProperty Name="Project">
+              <ScalarProperty Name="Id" ColumnName="Project_Id" />
+              <ScalarProperty Name="CreatedAt" ColumnName="Project_CreatedAt" />
+            </EndProperty>
+          </AssociationSetMapping>
+          <EntitySetMapping Name="Attachments">
+            <EntityTypeMapping TypeName="Model.Attachment">
+              <MappingFragment StoreEntitySet="Attachment">
+                <ScalarProperty Name="Data" ColumnName="Data" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="AspNetRoles">
+            <EntityTypeMapping TypeName="Model.AspNetRoles">
+              <MappingFragment StoreEntitySet="AspNetRoles">
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="Description" ColumnName="Description" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="True" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="True" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>

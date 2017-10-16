@@ -1,0 +1,116 @@
+﻿@using PagedList.Mvc
+@model IssueTracker.ViewModels.ProjectViewModel
+
+@{
+    ViewBag.Title = string.Format(ProjectStrings.TitleDetailsIncludeName, Model.Title);
+}
+
+<div>
+    <h4>@ProjectStrings.TitleDetails</h4>
+    <hr />
+    @if (ViewBag.CanEdit)
+    {
+        <div id="create-button" class="float-right">
+            <button type="button" class="btn btn-primary" onclick="location.href = '@Url.Action("Edit", "Projects", new {id = Model.Code})'">
+                <span class="glyphicon glyphicon-edit" aria-hidden="true"></span> @SharedStrings.ButtonEdit
+            </button>
+            <button type="button" class="btn btn-default" onclick="location.href = '@Url.Action("Delete", "Projects", new {id = Model.Code})'">
+                <span class="glyphicon glyphicon-remove" aria-hidden="true"></span> @SharedStrings.ButtonDelete
+            </button>
+        </div>
+    }
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.Title)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Title)
+        </dd>
+    </dl>
+
+    <div @if (ViewBag.CanEdit) { @: class="alter-position-after-buttons"
+         }>
+
+        <dl class="dl-horizontal">
+            <dt>
+                @Html.DisplayNameFor(model => model.Code)
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.Code)
+            </dd>
+        </dl>
+
+        <dl class="dl-horizontal">
+            <dt>
+                @Html.DisplayNameFor(model => model.OwnerId)
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.Owner.Email)
+            </dd>
+        </dl>
+
+        <dl class="dl-horizontal">
+            <dt>
+                @Html.DisplayNameFor(model => model.SelectedUsers)
+            </dt>
+
+            <dd>
+                <ul>
+                    @foreach (var user in Model.Users)
+                    {
+                        <li>@user.Email</li>
+                    }
+                </ul>
+            </dd>
+        </dl>
+    </div>
+</div>
+<p>
+    @Html.ActionLink(ProjectStrings.TitleIndex, "Index")
+</p>
+
+@if (Model.IssuesPage.TotalItemCount > 0)
+{
+    <table class="table">
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.IssuesPage.FirstOrDefault().State)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.IssuesPage.FirstOrDefault().Name)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.IssuesPage.FirstOrDefault().Assignee)
+            </th>
+        </tr>
+
+        @foreach (var item in Model.IssuesPage)
+        {
+            <tr>
+                <td>
+                    <span class="label state" style="background-color: @Html.DisplayFor(modelItem => item.State.Colour);">@Html.DisplayFor(modelItem => item.State.Title)</span>
+                </td>
+                <td>
+                    @Html.ActionLink(item.Name, "Details", "Issues", new { id = item.Code }, null)
+                    <br />
+                    <i><small>reported by @Html.DisplayFor(modelItem => item.Reporter.Email)</small></i>
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Assignee.Email)
+                </td>
+            </tr>
+        }
+
+    </table>
+
+    <Text>@string.Format(@SharedStrings.Paging, Model.IssuesPage.PageCount < Model.IssuesPage.PageNumber ? 0 : Model.IssuesPage.PageNumber, Model.IssuesPage.PageCount)</Text>
+    @Html.PagedListPager(Model.IssuesPage, page => Url.Action("Details",
+    new { id = Model.Code, page, sortOrder = ViewBag.CurrentSort, currentFilter = ViewBag.CurrentFilter }))
+}
+else
+{
+    <i>@ProjectStrings.HasNoIssues</i>
+}

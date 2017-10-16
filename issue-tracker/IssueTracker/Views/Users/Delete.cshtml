@@ -1,0 +1,47 @@
+﻿@model IssueTracker.Entities.ApplicationUser
+
+@{
+    ViewBag.Title = UserStrings.TitleDelete;
+    Layout = "~/Views/Shared/_CustomLayout.cshtml";
+}
+
+<h2>@ViewBag.Title</h2>
+
+<h3>@UserStrings.DeleteMessage</h3>
+<div>
+    <hr/>
+    <dl class="dl-horizontal">
+        <dt>
+            @UserStrings.ApplicationUserUsername
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.UserName)
+        </dd>
+
+        <dt>
+            @UserStrings.ApplicationUserEmail
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Email)
+        </dd>
+
+        <dt>
+            @UserStrings.ApplicationUserPhone
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.PhoneNumber)
+        </dd>
+    </dl>
+
+    @using (Html.BeginForm()) {
+        @Html.AntiForgeryToken()
+
+        <div class="form-actions no-color">
+            <input type="submit" value="@SharedStrings.FormDelete" class="btn btn-default" /> |
+            @Html.ActionLink(UserStrings.BackToList, "Index")
+        </div>
+    }
+</div>
