@@ -3,7 +3,6 @@
     var sharedService = {};
 
 
-    //Service for get Customer Types
     var getListOfProjects = function () {
         var deferred = $q.defer();
         apiService.get("projects").then(function (response) {
@@ -37,10 +36,21 @@
         return deferred.promise;
     };
 
+    var getIssueTypes = function () {
+        var deferred = $q.defer();
+        apiService.get("issueTypes").then(function (response) {
+            deferred.resolve(response);
+        },
+        function (err) {
+            deferred.reject(err);
+        });
+        return deferred.promise;
+    };
 
     sharedService.getListOfProjects = getListOfProjects;
     sharedService.getListOfTypes = getListOfTypes;
     sharedService.getListOfUsers = getListOfUsers;
+    sharedService.getIssueTypes = getIssueTypes;
 
     return sharedService;
 

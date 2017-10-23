@@ -61,6 +61,15 @@ namespace IssueTracker.Locale {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to User Role.
+        /// </summary>
+        public static string ApplicationRoleName {
+            get {
+                return ResourceManager.GetString("ApplicationRoleName", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to E-mail.
         /// </summary>
         public static string ApplicationUserEmail {

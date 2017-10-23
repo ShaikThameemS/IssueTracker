@@ -12,14 +12,11 @@ namespace IssueTrackingService
     using System;
     using System.Collections.Generic;
     
-    public partial class AspNetUserRole
+    public partial class C__MigrationHistory
     {
-        public System.Guid UserId { get; set; }
-        public System.Guid RoleId { get; set; }
-        public Nullable<System.Guid> ApplicationUser_Id { get; set; }
-        public System.Guid Id { get; set; }
-    
-        public virtual AspNetRole AspNetRole { get; set; }
-        public virtual AspNetUser AspNetUser { get; set; }
+        public string MigrationId { get; set; }
+        public string ContextKey { get; set; }
+        public byte[] Model { get; set; }
+        public string ProductVersion { get; set; }
     }
 }

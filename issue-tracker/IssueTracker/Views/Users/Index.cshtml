@@ -29,8 +29,9 @@
         <th>
             @UserStrings.ApplicationUserPhone
         </th>
-
-        <th></th>
+        <th>
+            @UserStrings.ApplicationRoleName
+        </th>
     </tr>
 
 @foreach (var item in Model) {
@@ -45,6 +46,7 @@
             @Html.DisplayFor(modelItem => item.PhoneNumber)
         </td>
         <td>
+            @Html.DisplayFor(modelItem => item.RoleName)
         </td>
     </tr>
 }

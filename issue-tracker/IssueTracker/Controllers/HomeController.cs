@@ -30,7 +30,7 @@ namespace IssueTracker.Controllers
             var usersProjects = _projectService.GetProjectsForUser(userId);
             var projectToDisplay = viewModel.ProjectId == null ? usersProjects.FirstOrDefault() : usersProjects.Single(p => p.Id == viewModel.ProjectId);
 
-            viewModel.ProjectCode = projectToDisplay.Code;
+            viewModel.ProjectCode = projectToDisplay != null ? projectToDisplay.Code : string.Empty;
             viewModel.QuestionCount = _issueService.GetIssueCount(IssueType.Question, projectToDisplay, false);
             viewModel.TaskCount = _issueService.GetIssueCount(IssueType.Task, projectToDisplay, false);
             viewModel.BugCount = _issueService.GetIssueCount(IssueType.Bug, projectToDisplay, false);

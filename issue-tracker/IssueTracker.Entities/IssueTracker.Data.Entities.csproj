@@ -61,6 +61,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="ApplicationUser.cs" />
+    <Compile Include="Attachments.cs" />
     <Compile Include="UserRole.cs" />
     <Compile Include="Comment.cs" />
     <Compile Include="IdentityModels.cs" />

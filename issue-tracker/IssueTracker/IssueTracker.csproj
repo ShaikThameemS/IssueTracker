@@ -271,6 +271,22 @@
     <Compile Include="Migrations\201710091035442_ProjectUsersLinkingTable.Designer.cs">
       <DependentUpon>201710091035442_ProjectUsersLinkingTable.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201710170736092_Removed State and StateWorkflow.cs" />
+    <Compile Include="Migrations\201710170736092_Removed State and StateWorkflow.Designer.cs">
+      <DependentUpon>201710170736092_Removed State and StateWorkflow.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201710170930241_Added Attachment table.cs" />
+    <Compile Include="Migrations\201710170930241_Added Attachment table.Designer.cs">
+      <DependentUpon>201710170930241_Added Attachment table.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201710170934547_Updated Attachment table.cs" />
+    <Compile Include="Migrations\201710170934547_Updated Attachment table.Designer.cs">
+      <DependentUpon>201710170934547_Updated Attachment table.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201710230906298_added state and stateworkflow.cs" />
+    <Compile Include="Migrations\201710230906298_added state and stateworkflow.Designer.cs">
+      <DependentUpon>201710230906298_added state and stateworkflow.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\UserRoles.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -599,6 +615,18 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201710091035442_ProjectUsersLinkingTable.resx">
       <DependentUpon>201710091035442_ProjectUsersLinkingTable.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201710170736092_Removed State and StateWorkflow.resx">
+      <DependentUpon>201710170736092_Removed State and StateWorkflow.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201710170930241_Added Attachment table.resx">
+      <DependentUpon>201710170930241_Added Attachment table.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201710170934547_Updated Attachment table.resx">
+      <DependentUpon>201710170934547_Updated Attachment table.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201710230906298_added state and stateworkflow.resx">
+      <DependentUpon>201710230906298_added state and stateworkflow.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>

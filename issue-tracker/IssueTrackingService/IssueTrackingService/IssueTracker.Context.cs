@@ -25,16 +25,18 @@ namespace IssueTrackingService
             throw new UnintentionalCodeFirstException();
         }
     
+        public virtual DbSet<C__MigrationHistory> C__MigrationHistory { get; set; }
+        public virtual DbSet<AspNetRole> AspNetRoles { get; set; }
         public virtual DbSet<AspNetUserClaim> AspNetUserClaims { get; set; }
         public virtual DbSet<AspNetUserLogin> AspNetUserLogins { get; set; }
         public virtual DbSet<AspNetUserRole> AspNetUserRoles { get; set; }
         public virtual DbSet<AspNetUser> AspNetUsers { get; set; }
+        public virtual DbSet<Attachment> Attachments { get; set; }
         public virtual DbSet<Comment> Comments { get; set; }
         public virtual DbSet<Issue> Issues { get; set; }
         public virtual DbSet<Project> Projects { get; set; }
+        public virtual DbSet<Project_X_Users> Project_X_Users { get; set; }
         public virtual DbSet<State> States { get; set; }
         public virtual DbSet<StateWorkflow> StateWorkflows { get; set; }
-        public virtual DbSet<Attachment> Attachments { get; set; }
-        public virtual DbSet<AspNetRoles> AspNetRoles { get; set; }
     }
 }

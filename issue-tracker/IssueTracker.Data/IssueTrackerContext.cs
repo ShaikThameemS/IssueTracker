@@ -18,6 +18,7 @@ namespace IssueTracker.Data
         public virtual DbSet<Comment> Comments { get; set; }
         public virtual DbSet<Project_X_Users> Project_X_Users { get; set; }
         public virtual DbSet<ApplicationUserRole> UserRole { get; set; }
+        public virtual DbSet<Attachments> Attachments { get; set; }
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {
             base.OnModelCreating(modelBuilder);
@@ -29,6 +30,7 @@ namespace IssueTracker.Data
             modelBuilder.Configurations.Add(new ApplicationUserConfiguration());
             modelBuilder.Configurations.Add(new UserRoleConfiguration());
             modelBuilder.Configurations.Add(new Project_X_UsersConfiguration());
+            modelBuilder.Configurations.Add(new AttachmentsConfiguration());
 
             modelBuilder.Conventions.Remove<PluralizingTableNameConvention>();
             modelBuilder.Conventions.Remove<OneToManyCascadeDeleteConvention>();

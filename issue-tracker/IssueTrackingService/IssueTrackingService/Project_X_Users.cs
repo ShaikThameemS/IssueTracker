@@ -12,14 +12,12 @@ namespace IssueTrackingService
     using System;
     using System.Collections.Generic;
     
-    public partial class AspNetUserRole
+    public partial class Project_X_Users
     {
-        public System.Guid UserId { get; set; }
-        public System.Guid RoleId { get; set; }
-        public Nullable<System.Guid> ApplicationUser_Id { get; set; }
         public System.Guid Id { get; set; }
-    
-        public virtual AspNetRole AspNetRole { get; set; }
-        public virtual AspNetUser AspNetUser { get; set; }
+        public System.Guid AspNetUsersId { get; set; }
+        public System.Guid ProjectId { get; set; }
+        public System.DateTime CreatedAt { get; set; }
+        public bool Active { get; set; }
     }
 }

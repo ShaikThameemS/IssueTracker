@@ -385,7 +385,9 @@ else
 
                     <table class="table">
                         <tr>
-                            <th></th>
+                            <th>
+                                @Html.ActionLink(IssueStrings.IssueType, "Index", new { sort = ViewBag.IssueTypeSort })
+                            </th>
                             <th>
                                 @Html.ActionLink(IssueStrings.IssueTitle, "Index", new { sort = ViewBag.SummarySort })
                             </th>
@@ -418,8 +420,7 @@ else
                                 <td>
                                     @if (item.Assignee != null)
                                     {
-                                        @Html.DisplayFor(modelItem => item.Assignee.Email)
-                                        ;
+                                        @Html.DisplayFor(modelItem => item.Assignee.Email);
                                     }
                                     else
                                     {

@@ -4,14 +4,24 @@
   <edmx:Runtime>
     <!-- SSDL content -->
     <edmx:StorageModels>
-    <Schema Namespace="Model.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+      <Schema Namespace="IssueTrackingModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="__MigrationHistory">
+          <Key>
+            <PropertyRef Name="MigrationId" />
+            <PropertyRef Name="ContextKey" />
+          </Key>
+          <Property Name="MigrationId" Type="nvarchar" MaxLength="150" Nullable="false" />
+          <Property Name="ContextKey" Type="nvarchar" MaxLength="300" Nullable="false" />
+          <Property Name="Model" Type="varbinary(max)" Nullable="false" />
+          <Property Name="ProductVersion" Type="nvarchar" MaxLength="32" Nullable="false" />
+        </EntityType>
         <EntityType Name="AspNetRoles">
           <Key>
             <PropertyRef Name="Id" />
           </Key>
           <Property Name="Id" Type="uniqueidentifier" Nullable="false" />
-          <Property Name="Description" Type="nvarchar(max)" />
           <Property Name="Name" Type="nvarchar" MaxLength="256" Nullable="false" />
+          <Property Name="Description" Type="nvarchar(max)" />
         </EntityType>
         <EntityType Name="AspNetUserClaims">
           <Key>
@@ -36,12 +46,12 @@
         </EntityType>
         <EntityType Name="AspNetUserRoles">
           <Key>
-            <PropertyRef Name="UserId" />
-            <PropertyRef Name="RoleId" />
+            <PropertyRef Name="Id" />
           </Key>
           <Property Name="UserId" Type="uniqueidentifier" Nullable="false" />
           <Property Name="RoleId" Type="uniqueidentifier" Nullable="false" />
           <Property Name="ApplicationUser_Id" Type="uniqueidentifier" />
+          <Property Name="Id" Type="uniqueidentifier" Nullable="false" />
         </EntityType>
         <EntityType Name="AspNetUsers">
           <Key>
@@ -60,14 +70,20 @@
           <Property Name="AccessFailedCount" Type="int" Nullable="false" />
           <Property Name="UserName" Type="nvarchar(max)" />
         </EntityType>
-        <!--Errors Found During Generation:
-warning 6002: The table/view 'IssueTracking.dbo.Attachment' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
-        <EntityType Name="Attachment">
+        <EntityType Name="Attachments">
           <Key>
             <PropertyRef Name="Id" />
           </Key>
-          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
-          <Property Name="Data" Type="nvarchar(max)" />
+          <Property Name="Id" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="FileData" Type="varbinary(max)" Nullable="false" />
+          <Property Name="FileName" Type="nvarchar(max)" Nullable="false" />
+          <Property Name="FileExtension" Type="nvarchar(max)" Nullable="false" />
+          <Property Name="IsDeleted" Type="bit" Nullable="false" />
+          <Property Name="CreatedBy" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="CreatedOn" Type="datetime" Nullable="false" />
+          <Property Name="UpdatedBy" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="UpdatedOn" Type="datetime" Nullable="false" />
+          <Property Name="IssueId" Type="uniqueidentifier" Nullable="false" />
         </EntityType>
         <EntityType Name="Comment">
           <Key>
@@ -75,13 +91,13 @@ warning 6002: The table/view 'IssueTracking.dbo.Attachment' does not have a prim
             <PropertyRef Name="CreatedAt" />
           </Key>
           <Property Name="Id" Type="uniqueidentifier" Nullable="false" />
-          <Property Name="CreatedAt" Type="datetime" Nullable="false" />
           <Property Name="IssueId" Type="uniqueidentifier" Nullable="false" />
-          <Property Name="IssueCreatedAt" Type="datetime" Nullable="false" />
-          <Property Name="Active" Type="bit" Nullable="false" />
           <Property Name="Text" Type="nvarchar(max)" Nullable="false" />
           <Property Name="Posted" Type="datetime" />
           <Property Name="AuthorId" Type="uniqueidentifier" />
+          <Property Name="CreatedAt" Type="datetime" Nullable="false" />
+          <Property Name="IssueCreatedAt" Type="datetime" Nullable="false" />
+          <Property Name="Active" Type="bit" Nullable="false" />
         </EntityType>
         <EntityType Name="Issue">
           <Key>
@@ -89,22 +105,21 @@ warning 6002: The table/view 'IssueTracking.dbo.Attachment' does not have a prim
             <PropertyRef Name="CreatedAt" />
           </Key>
           <Property Name="Id" Type="uniqueidentifier" Nullable="false" />
-          <Property Name="CreatedAt" Type="datetime" Nullable="false" />
           <Property Name="ProjectId" Type="uniqueidentifier" Nullable="false" />
-          <Property Name="ProjectCreatedAt" Type="datetime" Nullable="false" />
-          <Property Name="StateId" Type="uniqueidentifier" Nullable="false" />
           <Property Name="ReporterId" Type="uniqueidentifier" Nullable="false" />
           <Property Name="AssigneeId" Type="uniqueidentifier" />
-          <Property Name="Active" Type="bit" Nullable="false" />
-          <Property Name="Type" Type="int" Nullable="false" />
           <Property Name="Name" Type="nvarchar" MaxLength="255" Nullable="false" />
           <Property Name="Created" Type="datetime" Nullable="false" />
-          <Property Name="ResolvedAt" Type="datetime" />
           <Property Name="Description" Type="nvarchar(max)" />
           <Property Name="CodeNumber" Type="int" Nullable="false" />
-          <Property Name="Status" Type="nvarchar" MaxLength="1" />
-          <Property Name="Priority" Type="nvarchar" MaxLength="1" />
-          <Property Name="Attachment" Type="varchar(max)" />
+          <Property Name="ProjectCreatedAt" Type="datetime" Nullable="false" />
+          <Property Name="CreatedAt" Type="datetime" Nullable="false" />
+          <Property Name="Active" Type="bit" Nullable="false" />
+          <Property Name="Type" Type="int" Nullable="false" />
+          <Property Name="ResolvedAt" Type="datetime" />
+          <Property Name="Status" Type="nvarchar(max)" />
+          <Property Name="Priority" Type="nvarchar(max)" />
+          <Property Name="StateId" Type="uniqueidentifier" Nullable="false" />
         </EntityType>
         <EntityType Name="Project">
           <Key>
@@ -112,21 +127,31 @@ warning 6002: The table/view 'IssueTracking.dbo.Attachment' does not have a prim
             <PropertyRef Name="CreatedAt" />
           </Key>
           <Property Name="Id" Type="uniqueidentifier" Nullable="false" />
-          <Property Name="CreatedAt" Type="datetime" Nullable="false" />
           <Property Name="Title" Type="nvarchar" MaxLength="255" Nullable="false" />
           <Property Name="Code" Type="nvarchar(max)" Nullable="false" />
-          <Property Name="Active" Type="bit" Nullable="false" />
           <Property Name="OwnerId" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="CreatedAt" Type="datetime" Nullable="false" />
+          <Property Name="Active" Type="bit" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Project_X_Users">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="AspNetUsersId" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="ProjectId" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="CreatedAt" Type="datetime" Nullable="false" />
+          <Property Name="Active" Type="bit" Nullable="false" />
         </EntityType>
         <EntityType Name="ProjectApplicationUser">
           <Key>
             <PropertyRef Name="Project_Id" />
             <PropertyRef Name="Project_CreatedAt" />
-            <PropertyRef Name="ApplicationUser_id" />
+            <PropertyRef Name="ApplicationUser_Id" />
           </Key>
           <Property Name="Project_Id" Type="uniqueidentifier" Nullable="false" />
           <Property Name="Project_CreatedAt" Type="datetime" Nullable="false" />
-          <Property Name="ApplicationUser_id" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="ApplicationUser_Id" Type="uniqueidentifier" Nullable="false" />
         </EntityType>
         <EntityType Name="State">
           <Key>
@@ -233,14 +258,14 @@ warning 6002: The table/view 'IssueTracking.dbo.Attachment' does not have a prim
           </ReferentialConstraint>
         </Association>
         <Association Name="FK_dbo_Issue_dbo_AspNetUsers_ReporterId">
-          <End Role="AspNetUsers" Type="Self.AspNetUsers" Multiplicity="1" />
+          <End Role="AspNetUsers" Type="Self.AspNetUsers" Multiplicity="0..1" />
           <End Role="Issue" Type="Self.Issue" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="AspNetUsers">
               <PropertyRef Name="Id" />
             </Principal>
             <Dependent Role="Issue">
-              <PropertyRef Name="ReporterId" />
+              <PropertyRef Name="AssigneeId" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -292,7 +317,7 @@ warning 6002: The table/view 'IssueTracking.dbo.Attachment' does not have a prim
               <PropertyRef Name="Id" />
             </Principal>
             <Dependent Role="ProjectApplicationUser">
-              <PropertyRef Name="ApplicationUser_id" />
+              <PropertyRef Name="ApplicationUser_Id" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -336,24 +361,21 @@ warning 6002: The table/view 'IssueTracking.dbo.Attachment' does not have a prim
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <EntityContainer Name="ModelStoreContainer">
+        <EntityContainer Name="IssueTrackingModelStoreContainer">
+          <EntitySet Name="__MigrationHistory" EntityType="Self.__MigrationHistory" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="AspNetRoles" EntityType="Self.AspNetRoles" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="AspNetUserClaims" EntityType="Self.AspNetUserClaims" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="AspNetUserLogins" EntityType="Self.AspNetUserLogins" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="AspNetUserRoles" EntityType="Self.AspNetUserRoles" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="AspNetUsers" EntityType="Self.AspNetUsers" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Attachments" EntityType="Self.Attachments" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Comment" EntityType="Self.Comment" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Issue" EntityType="Self.Issue" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Project" EntityType="Self.Project" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Project_X_Users" EntityType="Self.Project_X_Users" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="ProjectApplicationUser" EntityType="Self.ProjectApplicationUser" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="State" EntityType="Self.State" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="StateWorkflow" EntityType="Self.StateWorkflow" Schema="dbo" store:Type="Tables" />
-          <EntitySet Name="Attachment" EntityType="Self.Attachment" store:Type="Tables" store:Schema="dbo">
-            <DefiningQuery>SELECT 
-    [Attachment].[Id] AS [Id], 
-    [Attachment].[Data] AS [Data]
-    FROM [dbo].[Attachment] AS [Attachment]</DefiningQuery>
-          </EntitySet>
           <AssociationSet Name="FK_dbo_AspNetUserClaims_dbo_AspNetUsers_ApplicationUser_Id" Association="Self.FK_dbo_AspNetUserClaims_dbo_AspNetUsers_ApplicationUser_Id">
             <End Role="AspNetUsers" EntitySet="AspNetUsers" />
             <End Role="AspNetUserClaims" EntitySet="AspNetUserClaims" />
@@ -415,10 +437,30 @@ warning 6002: The table/view 'IssueTracking.dbo.Attachment' does not have a prim
             <End Role="StateWorkflow" EntitySet="StateWorkflow" />
           </AssociationSet>
         </EntityContainer>
-      </Schema></edmx:StorageModels>
+      </Schema>
+    </edmx:StorageModels>
     <!-- CSDL content -->
     <edmx:ConceptualModels>
-      <Schema Namespace="Model" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+      <Schema Namespace="IssueTrackingModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="C__MigrationHistory">
+          <Key>
+            <PropertyRef Name="MigrationId" />
+            <PropertyRef Name="ContextKey" />
+          </Key>
+          <Property Name="MigrationId" Type="String" MaxLength="150" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="ContextKey" Type="String" MaxLength="300" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Model" Type="Binary" MaxLength="Max" FixedLength="false" Nullable="false" />
+          <Property Name="ProductVersion" Type="String" MaxLength="32" FixedLength="false" Unicode="true" Nullable="false" />
+        </EntityType>
+        <EntityType Name="AspNetRole">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Guid" Nullable="false" />
+          <Property Name="Name" Type="String" MaxLength="256" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Description" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="AspNetUserRoles" Relationship="Self.FK_dbo_AspNetUserRoles_dbo_AspNetRoles_RoleId" FromRole="AspNetRoles" ToRole="AspNetUserRoles" />
+        </EntityType>
         <EntityType Name="AspNetUserClaim">
           <Key>
             <PropertyRef Name="Id" />
@@ -444,14 +486,14 @@ warning 6002: The table/view 'IssueTracking.dbo.Attachment' does not have a prim
         </EntityType>
         <EntityType Name="AspNetUserRole">
           <Key>
-            <PropertyRef Name="UserId" />
-            <PropertyRef Name="RoleId" />
+            <PropertyRef Name="Id" />
           </Key>
           <Property Name="UserId" Type="Guid" Nullable="false" />
           <Property Name="RoleId" Type="Guid" Nullable="false" />
           <Property Name="ApplicationUser_Id" Type="Guid" />
+          <Property Name="Id" Type="Guid" Nullable="false" />
+          <NavigationProperty Name="AspNetRole" Relationship="Self.FK_dbo_AspNetUserRoles_dbo_AspNetRoles_RoleId" FromRole="AspNetUserRoles" ToRole="AspNetRoles" />
           <NavigationProperty Name="AspNetUser" Relationship="Self.FK_dbo_AspNetUserRoles_dbo_AspNetUsers_ApplicationUser_Id" FromRole="AspNetUserRoles" ToRole="AspNetUsers" />
-          <NavigationProperty Name="AspNetRoles" Relationship="Model.FK_dbo_AspNetUserRoles_dbo_AspNetRoles_RoleId" FromRole="AspNetUserRole" ToRole="AspNetRoles" />
         </EntityType>
         <EntityType Name="AspNetUser">
           <Key>
@@ -478,19 +520,34 @@ warning 6002: The table/view 'IssueTracking.dbo.Attachment' does not have a prim
           <NavigationProperty Name="Projects" Relationship="Self.FK_dbo_Project_dbo_AspNetUsers_OwnerId" FromRole="AspNetUsers" ToRole="Project" />
           <NavigationProperty Name="Projects1" Relationship="Self.ProjectApplicationUser" FromRole="AspNetUsers" ToRole="Project" />
         </EntityType>
+        <EntityType Name="Attachment">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Guid" Nullable="false" />
+          <Property Name="FileData" Type="Binary" MaxLength="Max" FixedLength="false" Nullable="false" />
+          <Property Name="FileName" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="FileExtension" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="IsDeleted" Type="Boolean" Nullable="false" />
+          <Property Name="CreatedBy" Type="Guid" Nullable="false" />
+          <Property Name="CreatedOn" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="UpdatedBy" Type="Guid" Nullable="false" />
+          <Property Name="UpdatedOn" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="IssueId" Type="Guid" Nullable="false" />
+        </EntityType>
         <EntityType Name="Comment">
           <Key>
             <PropertyRef Name="Id" />
             <PropertyRef Name="CreatedAt" />
           </Key>
           <Property Name="Id" Type="Guid" Nullable="false" />
-          <Property Name="CreatedAt" Type="DateTime" Nullable="false" Precision="3" />
           <Property Name="IssueId" Type="Guid" Nullable="false" />
-          <Property Name="IssueCreatedAt" Type="DateTime" Nullable="false" Precision="3" />
-          <Property Name="Active" Type="Boolean" Nullable="false" />
           <Property Name="Text" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" Nullable="false" />
           <Property Name="Posted" Type="DateTime" Precision="3" />
           <Property Name="AuthorId" Type="Guid" />
+          <Property Name="CreatedAt" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="IssueCreatedAt" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="Active" Type="Boolean" Nullable="false" />
           <NavigationProperty Name="AspNetUser" Relationship="Self.FK_dbo_Comment_dbo_AspNetUsers_AuthorId" FromRole="Comment" ToRole="AspNetUsers" />
           <NavigationProperty Name="Issue" Relationship="Self.FK_dbo_Comment_dbo_Issue_IssueId_IssueCreatedAt" FromRole="Comment" ToRole="Issue" />
         </EntityType>
@@ -500,27 +557,26 @@ warning 6002: The table/view 'IssueTracking.dbo.Attachment' does not have a prim
             <PropertyRef Name="CreatedAt" />
           </Key>
           <Property Name="Id" Type="Guid" Nullable="false" />
-          <Property Name="CreatedAt" Type="DateTime" Nullable="false" Precision="3" />
           <Property Name="ProjectId" Type="Guid" Nullable="false" />
-          <Property Name="ProjectCreatedAt" Type="DateTime" Nullable="false" Precision="3" />
-          <Property Name="StateId" Type="Guid" Nullable="false" />
           <Property Name="ReporterId" Type="Guid" Nullable="false" />
           <Property Name="AssigneeId" Type="Guid" />
-          <Property Name="Active" Type="Boolean" Nullable="false" />
-          <Property Name="Type" Type="Int32" Nullable="false" />
           <Property Name="Name" Type="String" MaxLength="255" FixedLength="false" Unicode="true" Nullable="false" />
           <Property Name="Created" Type="DateTime" Nullable="false" Precision="3" />
-          <Property Name="ResolvedAt" Type="DateTime" Precision="3" />
           <Property Name="Description" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
           <Property Name="CodeNumber" Type="Int32" Nullable="false" />
-          <Property Name="Status" Type="String" MaxLength="1" FixedLength="false" Unicode="true" />
+          <Property Name="ProjectCreatedAt" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="CreatedAt" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="Active" Type="Boolean" Nullable="false" />
+          <Property Name="Type" Type="Int32" Nullable="false" />
+          <Property Name="ResolvedAt" Type="DateTime" Precision="3" />
+          <Property Name="Status" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="Priority" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="StateId" Type="Guid" Nullable="false" />
           <NavigationProperty Name="AspNetUser" Relationship="Self.FK_dbo_Issue_dbo_AspNetUsers_AssigneeId" FromRole="Issue" ToRole="AspNetUsers" />
           <NavigationProperty Name="AspNetUser1" Relationship="Self.FK_dbo_Issue_dbo_AspNetUsers_ReporterId" FromRole="Issue" ToRole="AspNetUsers" />
           <NavigationProperty Name="Comments" Relationship="Self.FK_dbo_Comment_dbo_Issue_IssueId_IssueCreatedAt" FromRole="Issue" ToRole="Comment" />
           <NavigationProperty Name="Project" Relationship="Self.FK_dbo_Issue_dbo_Project_ProjectId_ProjectCreatedAt" FromRole="Issue" ToRole="Project" />
           <NavigationProperty Name="State" Relationship="Self.FK_dbo_Issue_dbo_State_StateId" FromRole="Issue" ToRole="State" />
-          <Property Name="Priority" Type="String" MaxLength="1" FixedLength="false" Unicode="true" />
-          <Property Name="Attachment" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
         </EntityType>
         <EntityType Name="Project">
           <Key>
@@ -528,14 +584,24 @@ warning 6002: The table/view 'IssueTracking.dbo.Attachment' does not have a prim
             <PropertyRef Name="CreatedAt" />
           </Key>
           <Property Name="Id" Type="Guid" Nullable="false" />
-          <Property Name="CreatedAt" Type="DateTime" Nullable="false" Precision="3" />
           <Property Name="Title" Type="String" MaxLength="255" FixedLength="false" Unicode="true" Nullable="false" />
           <Property Name="Code" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" Nullable="false" />
-          <Property Name="Active" Type="Boolean" Nullable="false" />
           <Property Name="OwnerId" Type="Guid" Nullable="false" />
+          <Property Name="CreatedAt" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="Active" Type="Boolean" Nullable="false" />
           <NavigationProperty Name="AspNetUser" Relationship="Self.FK_dbo_Project_dbo_AspNetUsers_OwnerId" FromRole="Project" ToRole="AspNetUsers" />
           <NavigationProperty Name="Issues" Relationship="Self.FK_dbo_Issue_dbo_Project_ProjectId_ProjectCreatedAt" FromRole="Project" ToRole="Issue" />
           <NavigationProperty Name="AspNetUsers" Relationship="Self.ProjectApplicationUser" FromRole="Project" ToRole="AspNetUsers" />
+        </EntityType>
+        <EntityType Name="Project_X_Users">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Guid" Nullable="false" />
+          <Property Name="AspNetUsersId" Type="Guid" Nullable="false" />
+          <Property Name="ProjectId" Type="Guid" Nullable="false" />
+          <Property Name="CreatedAt" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="Active" Type="Boolean" Nullable="false" />
         </EntityType>
         <EntityType Name="State">
           <Key>
@@ -560,6 +626,18 @@ warning 6002: The table/view 'IssueTracking.dbo.Attachment' does not have a prim
           <NavigationProperty Name="State" Relationship="Self.FK_dbo_StateWorkflow_dbo_State_FromStateId" FromRole="StateWorkflow" ToRole="State" />
           <NavigationProperty Name="State1" Relationship="Self.FK_dbo_StateWorkflow_dbo_State_ToStateId" FromRole="StateWorkflow" ToRole="State" />
         </EntityType>
+        <Association Name="FK_dbo_AspNetUserRoles_dbo_AspNetRoles_RoleId">
+          <End Role="AspNetRoles" Type="Self.AspNetRole" Multiplicity="1" />
+          <End Role="AspNetUserRoles" Type="Self.AspNetUserRole" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="AspNetRoles">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="AspNetUserRoles">
+              <PropertyRef Name="RoleId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="FK_dbo_AspNetUserClaims_dbo_AspNetUsers_ApplicationUser_Id">
           <End Role="AspNetUsers" Type="Self.AspNetUser" Multiplicity="0..1" />
           <End Role="AspNetUserClaims" Type="Self.AspNetUserClaim" Multiplicity="*" />
@@ -621,14 +699,14 @@ warning 6002: The table/view 'IssueTracking.dbo.Attachment' does not have a prim
           </ReferentialConstraint>
         </Association>
         <Association Name="FK_dbo_Issue_dbo_AspNetUsers_ReporterId">
-          <End Role="AspNetUsers" Type="Self.AspNetUser" Multiplicity="1" />
+          <End Role="AspNetUsers" Type="Self.AspNetUser" Multiplicity="0..1" />
           <End Role="Issue" Type="Self.Issue" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="AspNetUsers">
               <PropertyRef Name="Id" />
             </Principal>
             <Dependent Role="Issue">
-              <PropertyRef Name="ReporterId" />
+              <PropertyRef Name="AssigneeId" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -713,15 +791,23 @@ warning 6002: The table/view 'IssueTracking.dbo.Attachment' does not have a prim
           <End Role="Project" Type="Self.Project" Multiplicity="*" />
         </Association>
         <EntityContainer Name="Entities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="C__MigrationHistory" EntityType="Self.C__MigrationHistory" />
+          <EntitySet Name="AspNetRoles" EntityType="Self.AspNetRole" />
           <EntitySet Name="AspNetUserClaims" EntityType="Self.AspNetUserClaim" />
           <EntitySet Name="AspNetUserLogins" EntityType="Self.AspNetUserLogin" />
           <EntitySet Name="AspNetUserRoles" EntityType="Self.AspNetUserRole" />
           <EntitySet Name="AspNetUsers" EntityType="Self.AspNetUser" />
+          <EntitySet Name="Attachments" EntityType="Self.Attachment" />
           <EntitySet Name="Comments" EntityType="Self.Comment" />
           <EntitySet Name="Issues" EntityType="Self.Issue" />
           <EntitySet Name="Projects" EntityType="Self.Project" />
+          <EntitySet Name="Project_X_Users" EntityType="Self.Project_X_Users" />
           <EntitySet Name="States" EntityType="Self.State" />
           <EntitySet Name="StateWorkflows" EntityType="Self.StateWorkflow" />
+          <AssociationSet Name="FK_dbo_AspNetUserRoles_dbo_AspNetRoles_RoleId" Association="Self.FK_dbo_AspNetUserRoles_dbo_AspNetRoles_RoleId">
+            <End Role="AspNetRoles" EntitySet="AspNetRoles" />
+            <End Role="AspNetUserRoles" EntitySet="AspNetUserRoles" />
+          </AssociationSet>
           <AssociationSet Name="FK_dbo_AspNetUserClaims_dbo_AspNetUsers_ApplicationUser_Id" Association="Self.FK_dbo_AspNetUserClaims_dbo_AspNetUsers_ApplicationUser_Id">
             <End Role="AspNetUsers" EntitySet="AspNetUsers" />
             <End Role="AspNetUserClaims" EntitySet="AspNetUserClaims" />
@@ -774,49 +860,34 @@ warning 6002: The table/view 'IssueTracking.dbo.Attachment' does not have a prim
             <End Role="AspNetUsers" EntitySet="AspNetUsers" />
             <End Role="Project" EntitySet="Projects" />
           </AssociationSet>
-          <EntitySet Name="Attachments" EntityType="Model.Attachment" />
-          <EntitySet Name="AspNetRoles" EntityType="Model.AspNetRoles" />
-          <AssociationSet Name="FK_dbo_AspNetUserRoles_dbo_AspNetRoles_RoleId" Association="Model.FK_dbo_AspNetUserRoles_dbo_AspNetRoles_RoleId">
-            <End Role="AspNetRoles" EntitySet="AspNetRoles" />
-            <End Role="AspNetUserRole" EntitySet="AspNetUserRoles" />
-          </AssociationSet>
         </EntityContainer>
-        <EntityType Name="Attachment">
-          <Key>
-            <PropertyRef Name="Id" />
-          </Key>
-          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="Data" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
-        </EntityType>
-        <EntityType Name="AspNetRoles">
-          <Key>
-            <PropertyRef Name="Id" />
-          </Key>
-          <Property Name="Id" Type="Guid" Nullable="false" />
-          <Property Name="Description" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
-          <Property Name="Name" Type="String" Nullable="false" MaxLength="256" FixedLength="false" Unicode="true" />
-          <NavigationProperty Name="AspNetUserRoles" Relationship="Model.FK_dbo_AspNetUserRoles_dbo_AspNetRoles_RoleId" FromRole="AspNetRoles" ToRole="AspNetUserRole" />
-        </EntityType>
-        <Association Name="FK_dbo_AspNetUserRoles_dbo_AspNetRoles_RoleId">
-          <End Type="Model.AspNetRoles" Role="AspNetRoles" Multiplicity="1" />
-          <End Type="Model.AspNetUserRole" Role="AspNetUserRole" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="AspNetRoles">
-              <PropertyRef Name="Id" />
-            </Principal>
-            <Dependent Role="AspNetUserRole">
-              <PropertyRef Name="RoleId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
       </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
     <edmx:Mappings>
       <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
-        <EntityContainerMapping StorageEntityContainer="ModelStoreContainer" CdmEntityContainer="Entities">
+        <EntityContainerMapping StorageEntityContainer="IssueTrackingModelStoreContainer" CdmEntityContainer="Entities">
+          <EntitySetMapping Name="C__MigrationHistory">
+            <EntityTypeMapping TypeName="IssueTrackingModel.C__MigrationHistory">
+              <MappingFragment StoreEntitySet="__MigrationHistory">
+                <ScalarProperty Name="MigrationId" ColumnName="MigrationId" />
+                <ScalarProperty Name="ContextKey" ColumnName="ContextKey" />
+                <ScalarProperty Name="Model" ColumnName="Model" />
+                <ScalarProperty Name="ProductVersion" ColumnName="ProductVersion" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="AspNetRoles">
+            <EntityTypeMapping TypeName="IssueTrackingModel.AspNetRole">
+              <MappingFragment StoreEntitySet="AspNetRoles">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="Description" ColumnName="Description" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
           <EntitySetMapping Name="AspNetUserClaims">
-            <EntityTypeMapping TypeName="Model.AspNetUserClaim">
+            <EntityTypeMapping TypeName="IssueTrackingModel.AspNetUserClaim">
               <MappingFragment StoreEntitySet="AspNetUserClaims">
                 <ScalarProperty Name="Id" ColumnName="Id" />
                 <ScalarProperty Name="UserId" ColumnName="UserId" />
@@ -827,7 +898,7 @@ warning 6002: The table/view 'IssueTracking.dbo.Attachment' does not have a prim
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="AspNetUserLogins">
-            <EntityTypeMapping TypeName="Model.AspNetUserLogin">
+            <EntityTypeMapping TypeName="IssueTrackingModel.AspNetUserLogin">
               <MappingFragment StoreEntitySet="AspNetUserLogins">
                 <ScalarProperty Name="LoginProvider" ColumnName="LoginProvider" />
                 <ScalarProperty Name="ProviderKey" ColumnName="ProviderKey" />
@@ -837,16 +908,17 @@ warning 6002: The table/view 'IssueTracking.dbo.Attachment' does not have a prim
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="AspNetUserRoles">
-            <EntityTypeMapping TypeName="Model.AspNetUserRole">
+            <EntityTypeMapping TypeName="IssueTrackingModel.AspNetUserRole">
               <MappingFragment StoreEntitySet="AspNetUserRoles">
                 <ScalarProperty Name="UserId" ColumnName="UserId" />
                 <ScalarProperty Name="RoleId" ColumnName="RoleId" />
                 <ScalarProperty Name="ApplicationUser_Id" ColumnName="ApplicationUser_Id" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="AspNetUsers">
-            <EntityTypeMapping TypeName="Model.AspNetUser">
+            <EntityTypeMapping TypeName="IssueTrackingModel.AspNetUser">
               <MappingFragment StoreEntitySet="AspNetUsers">
                 <ScalarProperty Name="Id" ColumnName="Id" />
                 <ScalarProperty Name="Email" ColumnName="Email" />
@@ -863,57 +935,83 @@ warning 6002: The table/view 'IssueTracking.dbo.Attachment' does not have a prim
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
+          <EntitySetMapping Name="Attachments">
+            <EntityTypeMapping TypeName="IssueTrackingModel.Attachment">
+              <MappingFragment StoreEntitySet="Attachments">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="FileData" ColumnName="FileData" />
+                <ScalarProperty Name="FileName" ColumnName="FileName" />
+                <ScalarProperty Name="FileExtension" ColumnName="FileExtension" />
+                <ScalarProperty Name="IsDeleted" ColumnName="IsDeleted" />
+                <ScalarProperty Name="CreatedBy" ColumnName="CreatedBy" />
+                <ScalarProperty Name="CreatedOn" ColumnName="CreatedOn" />
+                <ScalarProperty Name="UpdatedBy" ColumnName="UpdatedBy" />
+                <ScalarProperty Name="UpdatedOn" ColumnName="UpdatedOn" />
+                <ScalarProperty Name="IssueId" ColumnName="IssueId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
           <EntitySetMapping Name="Comments">
-            <EntityTypeMapping TypeName="Model.Comment">
+            <EntityTypeMapping TypeName="IssueTrackingModel.Comment">
               <MappingFragment StoreEntitySet="Comment">
                 <ScalarProperty Name="Id" ColumnName="Id" />
-                <ScalarProperty Name="CreatedAt" ColumnName="CreatedAt" />
                 <ScalarProperty Name="IssueId" ColumnName="IssueId" />
-                <ScalarProperty Name="IssueCreatedAt" ColumnName="IssueCreatedAt" />
-                <ScalarProperty Name="Active" ColumnName="Active" />
                 <ScalarProperty Name="Text" ColumnName="Text" />
                 <ScalarProperty Name="Posted" ColumnName="Posted" />
                 <ScalarProperty Name="AuthorId" ColumnName="AuthorId" />
+                <ScalarProperty Name="CreatedAt" ColumnName="CreatedAt" />
+                <ScalarProperty Name="IssueCreatedAt" ColumnName="IssueCreatedAt" />
+                <ScalarProperty Name="Active" ColumnName="Active" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="Issues">
-            <EntityTypeMapping TypeName="Model.Issue">
+            <EntityTypeMapping TypeName="IssueTrackingModel.Issue">
               <MappingFragment StoreEntitySet="Issue">
-                <ScalarProperty Name="Attachment" ColumnName="Attachment" />
-                <ScalarProperty Name="Priority" ColumnName="Priority" />
                 <ScalarProperty Name="Id" ColumnName="Id" />
-                <ScalarProperty Name="CreatedAt" ColumnName="CreatedAt" />
                 <ScalarProperty Name="ProjectId" ColumnName="ProjectId" />
-                <ScalarProperty Name="ProjectCreatedAt" ColumnName="ProjectCreatedAt" />
-                <ScalarProperty Name="StateId" ColumnName="StateId" />
                 <ScalarProperty Name="ReporterId" ColumnName="ReporterId" />
                 <ScalarProperty Name="AssigneeId" ColumnName="AssigneeId" />
-                <ScalarProperty Name="Active" ColumnName="Active" />
-                <ScalarProperty Name="Type" ColumnName="Type" />
                 <ScalarProperty Name="Name" ColumnName="Name" />
                 <ScalarProperty Name="Created" ColumnName="Created" />
-                <ScalarProperty Name="ResolvedAt" ColumnName="ResolvedAt" />
                 <ScalarProperty Name="Description" ColumnName="Description" />
                 <ScalarProperty Name="CodeNumber" ColumnName="CodeNumber" />
+                <ScalarProperty Name="ProjectCreatedAt" ColumnName="ProjectCreatedAt" />
+                <ScalarProperty Name="CreatedAt" ColumnName="CreatedAt" />
+                <ScalarProperty Name="Active" ColumnName="Active" />
+                <ScalarProperty Name="Type" ColumnName="Type" />
+                <ScalarProperty Name="ResolvedAt" ColumnName="ResolvedAt" />
                 <ScalarProperty Name="Status" ColumnName="Status" />
+                <ScalarProperty Name="Priority" ColumnName="Priority" />
+                <ScalarProperty Name="StateId" ColumnName="StateId" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="Projects">
-            <EntityTypeMapping TypeName="Model.Project">
+            <EntityTypeMapping TypeName="IssueTrackingModel.Project">
               <MappingFragment StoreEntitySet="Project">
                 <ScalarProperty Name="Id" ColumnName="Id" />
-                <ScalarProperty Name="CreatedAt" ColumnName="CreatedAt" />
                 <ScalarProperty Name="Title" ColumnName="Title" />
                 <ScalarProperty Name="Code" ColumnName="Code" />
-                <ScalarProperty Name="Active" ColumnName="Active" />
                 <ScalarProperty Name="OwnerId" ColumnName="OwnerId" />
+                <ScalarProperty Name="CreatedAt" ColumnName="CreatedAt" />
+                <ScalarProperty Name="Active" ColumnName="Active" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Project_X_Users">
+            <EntityTypeMapping TypeName="IssueTrackingModel.Project_X_Users">
+              <MappingFragment StoreEntitySet="Project_X_Users">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="AspNetUsersId" ColumnName="AspNetUsersId" />
+                <ScalarProperty Name="ProjectId" ColumnName="ProjectId" />
+                <ScalarProperty Name="CreatedAt" ColumnName="CreatedAt" />
+                <ScalarProperty Name="Active" ColumnName="Active" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="States">
-            <EntityTypeMapping TypeName="Model.State">
+            <EntityTypeMapping TypeName="IssueTrackingModel.State">
               <MappingFragment StoreEntitySet="State">
                 <ScalarProperty Name="Id" ColumnName="Id" />
                 <ScalarProperty Name="Title" ColumnName="Title" />
@@ -924,7 +1022,7 @@ warning 6002: The table/view 'IssueTracking.dbo.Attachment' does not have a prim
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="StateWorkflows">
-            <EntityTypeMapping TypeName="Model.StateWorkflow">
+            <EntityTypeMapping TypeName="IssueTrackingModel.StateWorkflow">
               <MappingFragment StoreEntitySet="StateWorkflow">
                 <ScalarProperty Name="Id" ColumnName="Id" />
                 <ScalarProperty Name="FromStateId" ColumnName="FromStateId" />
@@ -932,32 +1030,15 @@ warning 6002: The table/view 'IssueTracking.dbo.Attachment' does not have a prim
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
-          <AssociationSetMapping Name="ProjectApplicationUser" TypeName="Model.ProjectApplicationUser" StoreEntitySet="ProjectApplicationUser">
+          <AssociationSetMapping Name="ProjectApplicationUser" TypeName="IssueTrackingModel.ProjectApplicationUser" StoreEntitySet="ProjectApplicationUser">
             <EndProperty Name="AspNetUsers">
-              <ScalarProperty Name="Id" ColumnName="ApplicationUser_id" />
+              <ScalarProperty Name="Id" ColumnName="ApplicationUser_Id" />
             </EndProperty>
             <EndProperty Name="Project">
               <ScalarProperty Name="Id" ColumnName="Project_Id" />
               <ScalarProperty Name="CreatedAt" ColumnName="Project_CreatedAt" />
             </EndProperty>
           </AssociationSetMapping>
-          <EntitySetMapping Name="Attachments">
-            <EntityTypeMapping TypeName="Model.Attachment">
-              <MappingFragment StoreEntitySet="Attachment">
-                <ScalarProperty Name="Data" ColumnName="Data" />
-                <ScalarProperty Name="Id" ColumnName="Id" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="AspNetRoles">
-            <EntityTypeMapping TypeName="Model.AspNetRoles">
-              <MappingFragment StoreEntitySet="AspNetRoles">
-                <ScalarProperty Name="Name" ColumnName="Name" />
-                <ScalarProperty Name="Description" ColumnName="Description" />
-                <ScalarProperty Name="Id" ColumnName="Id" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
         </EntityContainerMapping>
       </Mapping>
     </edmx:Mappings>
@@ -972,8 +1053,8 @@ warning 6002: The table/view 'IssueTracking.dbo.Attachment' does not have a prim
     <Options>
       <DesignerInfoPropertySet>
         <DesignerProperty Name="ValidateOnBuild" Value="true" />
-        <DesignerProperty Name="EnablePluralization" Value="True" />
-        <DesignerProperty Name="IncludeForeignKeysInModel" Value="True" />
+        <DesignerProperty Name="EnablePluralization" Value="true" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
         <DesignerProperty Name="UseLegacyProvider" Value="false" />
         <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
       </DesignerInfoPropertySet>

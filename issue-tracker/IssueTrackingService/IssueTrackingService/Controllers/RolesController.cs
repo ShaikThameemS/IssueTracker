@@ -12,7 +12,7 @@ namespace IssueTrackingService.Controllers
     {
         [HttpPost]
         [Route("api/createRole")]        
-        public IHttpActionResult CreateRole(AspNetRoles roles)
+        public IHttpActionResult CreateRole(AspNetRole roles)
         {
             if (ModelState.IsValid)
             {
@@ -30,14 +30,14 @@ namespace IssueTrackingService.Controllers
 
         [HttpPost]
         [Route("api/updaterole/{Id}")]
-        public IHttpActionResult updateRole(AspNetRoles roles)
+        public IHttpActionResult updateRole(AspNetRole roles)
         {
 
             if (ModelState.IsValid)
             {
                 using (Entities context = new Entities())
                 {
-                    AspNetRoles aspNetRole = context.AspNetRoles.Where(role => role.Id == roles.Id).FirstOrDefault();
+                    AspNetRole aspNetRole = context.AspNetRoles.Where(role => role.Id == roles.Id).FirstOrDefault();
                     aspNetRole.Name = roles.Name;
                     aspNetRole.Description = roles.Description;
                     context.SaveChanges();
@@ -75,7 +75,7 @@ namespace IssueTrackingService.Controllers
             {
                 using (Entities context = new Entities())
                 {
-                    AspNetRoles aspNetRole = context.AspNetRoles.Where(role => role.Id == id).FirstOrDefault();
+                    AspNetRole aspNetRole = context.AspNetRoles.Where(role => role.Id == id).FirstOrDefault();
                     context.AspNetRoles.Remove(aspNetRole);
                     context.SaveChanges();
                 }

@@ -60,8 +60,13 @@ namespace IssueTracker.Controllers
         // GET: Users
         public ActionResult Index()
         {
-
-            return View(_db.Users.ToList());
+            var AppUsers = _db.Users.ToList();
+            foreach (ApplicationUser user in AppUsers)
+            {
+                Guid roleId = _db.UserRole.Where(x => x.UserId == user.Id).Select(y => y.RoleId).FirstOrDefault();
+                user.RoleName = _db.Roles.Where(x => x.Id == roleId).Select(y => y.Name).FirstOrDefault();
+            }
+            return View(AppUsers);
         }
 
         // GET: Users/Details/5
@@ -73,6 +78,9 @@ namespace IssueTracker.Controllers
             }
 
             var applicationUser = _db.Users.Find(id);
+            Guid roleId = _db.UserRole.Where(x => x.UserId == applicationUser.Id).Select(y => y.RoleId).FirstOrDefault();
+            applicationUser.RoleName = _db.Roles.Where(x => x.Id == roleId).Select(y => y.Name).FirstOrDefault();
+            
             if (applicationUser == null)
             {
                 return HttpNotFound();
@@ -137,9 +145,22 @@ namespace IssueTracker.Controllers
             if (ModelState.IsValid)
             {
                 UpdatedUser = Mapper.Map(viewModel, existingUser);
-                userRole.RoleId = UpdatedUser.RoleId;
                 _db.Entry(UpdatedUser).State = EntityState.Modified;
-                _db.Entry(userRole).State= EntityState.Modified;
+                if (userRole == null)
+                {
+                    var newUserRole = new ApplicationUserRole
+                    {
+                        Id = Guid.NewGuid(),
+                        UserId = UpdatedUser.Id,
+                        RoleId = UpdatedUser.RoleId
+                    };
+                    _db.Entry(newUserRole).State = EntityState.Added;
+                }
+                else
+                {
+                    userRole.RoleId = UpdatedUser.RoleId;
+                    _db.Entry(userRole).State = EntityState.Modified;
+                }
                 _db.SaveChanges();
                 return RedirectToAction("Index");
             }

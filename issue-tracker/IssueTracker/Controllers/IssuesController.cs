@@ -50,6 +50,7 @@ namespace IssueTracker.Controllers
             ViewBag.ProjectSort = sort == "project" ? "project_desc" : "project";
             ViewBag.AssigneeSort = sort == "assignee" ? "assignee_desc" : "assignee";
             ViewBag.StatusSort = sort == "status" ? "status_desc" : "status";
+            ViewBag.IssueTypeSort = sort == "issuetype" ? "issuetype_desc" : "issuetype";
 
             ViewBag.SearchProject = new SelectList(_projectService.GetProjects(), "Id", "Title");
             ViewBag.SearchAssignee = ViewBag.SearchReporter = new SelectList(_applicationUserRepo.GetAll(), "Id", "Email");
@@ -153,6 +154,10 @@ namespace IssueTracker.Controllers
                     return issues.OrderBy(ii => ii.Project, _projectsComparer);
                 case "created_desc":
                     return issues.OrderByDescending(ii => ii.Created);
+                case "issuetype":
+                    return issues.OrderBy(ii => ii.Type);
+                case "issuetype_desc":
+                    return issues.OrderByDescending(ii => ii.Type);
                 default:
                     return issues.OrderBy(ii => ii.Created);
             }
@@ -316,7 +321,7 @@ namespace IssueTracker.Controllers
 
         // POST: Issues/Create
         [HttpPost]
-        [ValidateAntiForgeryToken]
+        //[ValidateAntiForgeryToken]
         public ActionResult Create(IssueCreateViewModel viewModel)
         {
             if (!ModelState.IsValid)
@@ -346,6 +351,7 @@ namespace IssueTracker.Controllers
             issue.Created = DateTime.Now;
             issue.ProjectCreatedAt = projectTemp.CreatedAt;
             issue.Id = Guid.NewGuid();
+            issue.Status = "Open";
             issue.CodeNumber = _issueService.GetNewCodeNumber();
 
             _issueService.Add(issue);

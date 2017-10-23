@@ -22,11 +22,11 @@ namespace IssueTrackingService
         }
     
         public System.Guid Id { get; set; }
-        public System.DateTime CreatedAt { get; set; }
         public string Title { get; set; }
         public string Code { get; set; }
-        public bool Active { get; set; }
         public System.Guid OwnerId { get; set; }
+        public System.DateTime CreatedAt { get; set; }
+        public bool Active { get; set; }
     
         public virtual AspNetUser AspNetUser { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]

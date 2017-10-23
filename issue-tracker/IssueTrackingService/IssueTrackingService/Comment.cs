@@ -15,13 +15,13 @@ namespace IssueTrackingService
     public partial class Comment
     {
         public System.Guid Id { get; set; }
-        public System.DateTime CreatedAt { get; set; }
         public System.Guid IssueId { get; set; }
-        public System.DateTime IssueCreatedAt { get; set; }
-        public bool Active { get; set; }
         public string Text { get; set; }
         public Nullable<System.DateTime> Posted { get; set; }
         public Nullable<System.Guid> AuthorId { get; set; }
+        public System.DateTime CreatedAt { get; set; }
+        public System.DateTime IssueCreatedAt { get; set; }
+        public bool Active { get; set; }
     
         public virtual AspNetUser AspNetUser { get; set; }
         public virtual Issue Issue { get; set; }

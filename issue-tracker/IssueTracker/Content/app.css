@@ -266,7 +266,7 @@ li#create-button {
 }
 
 .entity-listing tr td:last-child {
-    text-align: right;
+    /*text-align: right;*/
 }
 
 .project-select {

@@ -8,12 +8,13 @@
 <h2>@ViewBag.Title</h2>
 
 <div ng-controller="AttachementController">
+    @*<input type="hidden" value="@ViewBag.ReporterId" id="ReporterId" />*@
     <div class="col-md-12" style="padding-left:20px">
         <form>
             <div class="form-group row">
                 <label for="inputEmail3" class="col-sm-2 col-form-label">Project</label>
                 <div class="col-sm-10">
-                    <select class="form-control">
+                    <select ng-model="issue.ProjectId" class="form-control">
                         <option ng-repeat="x in projects" value="{{x.Id}}">{{x.Title}}</option>
                     </select>
                 </div>
@@ -21,13 +22,15 @@
             <div class="form-group row">
                 <label for="inputEmail3" class="col-sm-2 col-form-label">Type</label>
                 <div class="col-sm-10">
-                    @Html.DropDownList("SearchType", EnumHelper.GetSelectList(typeof(IssueType)), IssueStrings.SelectTypeDefault, new { @class = "form-control" })
+                    <select ng-model="issue.Type" class="form-control">
+                        <option ng-repeat="x in types" value="{{x.Id}}">{{x.Name}}</option>
+                    </select>
                 </div>
             </div>
             <div class="form-group row">
                 <label for="inputPassword3" class="col-sm-2 col-form-label">Assignee</label>
                 <div class="col-sm-10">
-                    <select class="form-control">
+                    <select ng-model="issue.AssigneeId" class="form-control">
                         <option ng-repeat="x in users" value="{{x.Id}}">{{x.Email}}</option>
                     </select>
                 </div>
@@ -35,13 +38,13 @@
             <div class="form-group row">
                 <label for="inputPassword3" class="col-sm-2 col-form-label">Summary</label>
                 <div class="col-sm-10">
-                  <input type="text" class="form-control" />
+                  <input type="text" class="form-control" ng-model="issue.Name" />
                 </div>
             </div>
             <div class="form-group row">
                 <label for="inputPassword3" class="col-sm-2 col-form-label">Issue description</label>
                 <div class="col-sm-10">
-                    <trix-editor angular-trix ng-model="foo"></trix-editor>
+                    <trix-editor angular-trix ng-model="issue.Description"></trix-editor>
                 </div>
             </div>
             <div class="form-group row">
@@ -107,6 +110,7 @@
         $scope.projects = [];
         $scope.types = [];
         $scope.users = [];
+        $scope.issue = {};
 
         $scope.curFile;
         $scope.ImageProperty = {
@@ -126,8 +130,6 @@
        function (error) {
        });
 
-        $scope.types.unshift('-Select-');
-
         $scope.setFile = function (element) {
             $scope.fileList = [];
             // get the files
@@ -140,7 +142,45 @@
             }
         }
 
-        $scope.Submit = function () {
+        sharedService.getIssueTypes().then(function (response) {
+            $scope.types = response;
+            $scope.types.unshift({ Id: 0, Name: '-Select-' });
+            $scope.issue.Type = $scope.types[0];
+        },
+       function (error) {
+       });
+
+        $scope.Submit = function (data) {
+            //$scope.issue.ReporterId = $("#ReporterId").val();
+            //$scope.issue.Active = true;
+            //$scope.issue.Status = "Open";
+            //console.log("issue.Description" + issue.Description);
+            //jQuery.post("/Create", $scope.issue, {
+            //    headers: {
+            //        'Content-Type': 'application/json',
+            //        "Access-Control-Allow-Origin": "*",
+            //        "Access-Control-Allow-Credentials": "true",
+            //        "Access-Control-Allow-Methods": "GET,PUT,POST,DELETE"
+            //    }
+            //}).success(function (response) {
+            //    window.location.href = "/Issues";
+            //}).error(function (data, status, headers, config) { // <--- catch instead error
+            //});
+            jQuery.ajax({
+                type: 'POST',
+                url: '../Issues/Create',
+                data: { viewModel: $scope.issue },
+                dataType: "html",
+                success: function (response) {
+                    console.log($scope.issue);
+                    alert(window.location.href);
+                    window.location.href = "../Issues/Index";
+                },
+                error: function (data, status) {
+                    alert(data);
+                    alert(status);
+                }
+            });
 
         };
     });

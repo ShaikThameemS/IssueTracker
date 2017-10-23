@@ -14,7 +14,15 @@ namespace IssueTrackingService
     
     public partial class Attachment
     {
-        public int Id { get; set; }
-        public string Data { get; set; }
+        public System.Guid Id { get; set; }
+        public byte[] FileData { get; set; }
+        public string FileName { get; set; }
+        public string FileExtension { get; set; }
+        public bool IsDeleted { get; set; }
+        public System.Guid CreatedBy { get; set; }
+        public System.DateTime CreatedOn { get; set; }
+        public System.Guid UpdatedBy { get; set; }
+        public System.DateTime UpdatedOn { get; set; }
+        public System.Guid IssueId { get; set; }
     }
 }

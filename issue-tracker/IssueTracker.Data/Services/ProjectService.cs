@@ -76,9 +76,26 @@ namespace IssueTracker.Data.Services
 
         public Project GetProject(Guid id)
         {
-            return _projectRepo.Fetch()
+            var project = _projectRepo.Fetch()
                     .Where(x => x.Id == id)
-                    .OrderByDescending(x => x.CreatedAt).FirstOrDefault();
+                    .OrderByDescending(x => x.CreatedAt)
+                    .Include(p => p.Issues)
+                    .Include(p => p.Owner)
+                    .Include(p => p.Users)
+                    .FirstOrDefault();
+            if (project == null)
+            {
+                return null;
+            }
+
+            project.Issues = _issueRepo.Fetch().Where(i => i.ProjectId == project.Id).ToList();
+            var projectUsers = _projectUsersRepo.Fetch().Where(i => i.ProjectId == project.Id).ToList();
+            foreach (var projUsers in projectUsers)
+            {
+                project.Users.Add((ApplicationUser)_userRepo.Fetch().Where(i => i.Id == projUsers.AspNetUsersId).FirstOrDefault());
+            }
+
+            return project;
         }
 
         public IEnumerable<Project> GetProjectsForUser(Guid userId)

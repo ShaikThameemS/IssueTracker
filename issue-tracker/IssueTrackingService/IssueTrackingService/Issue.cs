@@ -21,22 +21,21 @@ namespace IssueTrackingService
         }
     
         public System.Guid Id { get; set; }
-        public System.DateTime CreatedAt { get; set; }
         public System.Guid ProjectId { get; set; }
-        public System.DateTime ProjectCreatedAt { get; set; }
-        public System.Guid StateId { get; set; }
         public System.Guid ReporterId { get; set; }
         public Nullable<System.Guid> AssigneeId { get; set; }
-        public bool Active { get; set; }
-        public int Type { get; set; }
         public string Name { get; set; }
         public System.DateTime Created { get; set; }
-        public Nullable<System.DateTime> ResolvedAt { get; set; }
         public string Description { get; set; }
         public int CodeNumber { get; set; }
+        public System.DateTime ProjectCreatedAt { get; set; }
+        public System.DateTime CreatedAt { get; set; }
+        public bool Active { get; set; }
+        public int Type { get; set; }
+        public Nullable<System.DateTime> ResolvedAt { get; set; }
         public string Status { get; set; }
         public string Priority { get; set; }
-        public string Attachment { get; set; }
+        public System.Guid StateId { get; set; }
     
         public virtual AspNetUser AspNetUser { get; set; }
         public virtual AspNetUser AspNetUser1 { get; set; }

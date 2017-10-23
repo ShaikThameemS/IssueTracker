@@ -4,32 +4,34 @@
   <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
     <!-- Diagram content (shape and connector positions) -->
     <edmx:Diagrams>
-      <Diagram DiagramId="8d7dc65d931b4c2582e71f5ec55bc92c" Name="Diagram1">
-        <EntityTypeShape EntityType="Model.AspNetUserClaim" Width="2" PointX="3" PointY="8" IsExpanded="true" />
-        <EntityTypeShape EntityType="Model.AspNetUserLogin" Width="1.875" PointX="3" PointY="10.875" IsExpanded="true" />
-        <EntityTypeShape EntityType="Model.AspNetUserRole" Width="1.5" PointX="3" PointY="14.125" IsExpanded="true" />
-        <EntityTypeShape EntityType="Model.AspNetUser" Width="1.75" PointX="0.75" PointY="9.75" IsExpanded="true" />
-        <EntityTypeShape EntityType="Model.Comment" Width="1.5" PointX="6" PointY="10.75" IsExpanded="true" />
-        <EntityTypeShape EntityType="Model.Issue" Width="1.5" PointX="5.25" PointY="16.625" IsExpanded="true" />
-        <EntityTypeShape EntityType="Model.Project" Width="1.5" PointX="3" PointY="25.875" IsExpanded="true" />
-        <EntityTypeShape EntityType="Model.State" Width="1.5" PointX="3" PointY="17.875" IsExpanded="true" />
-        <EntityTypeShape EntityType="Model.StateWorkflow" Width="1.5" PointX="5.25" PointY="23.125" IsExpanded="true" />
-        <AssociationConnector Association="Model.FK_dbo_AspNetUserClaims_dbo_AspNetUsers_ApplicationUser_Id" ManuallyRouted="false" />
-        <AssociationConnector Association="Model.FK_dbo_AspNetUserLogins_dbo_AspNetUsers_ApplicationUser_Id" ManuallyRouted="false" />
-        <AssociationConnector Association="Model.FK_dbo_AspNetUserRoles_dbo_AspNetUsers_ApplicationUser_Id" ManuallyRouted="false" />
-        <AssociationConnector Association="Model.FK_dbo_Comment_dbo_AspNetUsers_AuthorId" ManuallyRouted="false" />
-        <AssociationConnector Association="Model.FK_dbo_Issue_dbo_AspNetUsers_AssigneeId" ManuallyRouted="false" />
-        <AssociationConnector Association="Model.FK_dbo_Issue_dbo_AspNetUsers_ReporterId" ManuallyRouted="false" />
-        <AssociationConnector Association="Model.FK_dbo_Project_dbo_AspNetUsers_OwnerId" ManuallyRouted="false" />
-        <AssociationConnector Association="Model.FK_dbo_Comment_dbo_Issue_IssueId_IssueCreatedAt" ManuallyRouted="false" />
-        <AssociationConnector Association="Model.FK_dbo_Issue_dbo_Project_ProjectId_ProjectCreatedAt" ManuallyRouted="false" />
-        <AssociationConnector Association="Model.FK_dbo_Issue_dbo_State_StateId" ManuallyRouted="false" />
-        <AssociationConnector Association="Model.FK_dbo_StateWorkflow_dbo_State_FromStateId" ManuallyRouted="false" />
-        <AssociationConnector Association="Model.FK_dbo_StateWorkflow_dbo_State_ToStateId" ManuallyRouted="false" />
-        <AssociationConnector Association="Model.ProjectApplicationUser" ManuallyRouted="false" />
-        <EntityTypeShape EntityType="Model.Attachment" Width="1.5" PointX="0.75" PointY="7.875" />
-        <EntityTypeShape EntityType="Model.AspNetRoles" Width="1.5" PointX="7.625" PointY="14.375" />
-        <AssociationConnector Association="Model.FK_dbo_AspNetUserRoles_dbo_AspNetRoles_RoleId" />
+      <Diagram DiagramId="71dae45a2471429e9030c114e8864de2" Name="Diagram1">
+        <EntityTypeShape EntityType="IssueTrackingModel.C__MigrationHistory" Width="1.5" PointX="0.75" PointY="0.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="IssueTrackingModel.AspNetRole" Width="1.5" PointX="0.75" PointY="16.375" IsExpanded="true" />
+        <EntityTypeShape EntityType="IssueTrackingModel.AspNetUserClaim" Width="1.5" PointX="3" PointY="8.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="IssueTrackingModel.AspNetUserLogin" Width="1.5" PointX="3" PointY="11" IsExpanded="true" />
+        <EntityTypeShape EntityType="IssueTrackingModel.AspNetUserRole" Width="1.5" PointX="3" PointY="14.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="IssueTrackingModel.AspNetUser" Width="1.5" PointX="0.75" PointY="9.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="IssueTrackingModel.Attachment" Width="1.5" PointX="2.75" PointY="0.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="IssueTrackingModel.Comment" Width="1.5" PointX="6" PointY="10.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="IssueTrackingModel.Issue" Width="1.5" PointX="5.25" PointY="16.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="IssueTrackingModel.Project" Width="1.5" PointX="3" PointY="26.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="IssueTrackingModel.Project_X_Users" Width="1.5" PointX="4.75" PointY="0.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="IssueTrackingModel.State" Width="1.5" PointX="3" PointY="18.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="IssueTrackingModel.StateWorkflow" Width="1.5" PointX="5.25" PointY="23.375" IsExpanded="true" />
+        <AssociationConnector Association="IssueTrackingModel.FK_dbo_AspNetUserRoles_dbo_AspNetRoles_RoleId" ManuallyRouted="false" />
+        <AssociationConnector Association="IssueTrackingModel.FK_dbo_AspNetUserClaims_dbo_AspNetUsers_ApplicationUser_Id" ManuallyRouted="false" />
+        <AssociationConnector Association="IssueTrackingModel.FK_dbo_AspNetUserLogins_dbo_AspNetUsers_ApplicationUser_Id" ManuallyRouted="false" />
+        <AssociationConnector Association="IssueTrackingModel.FK_dbo_AspNetUserRoles_dbo_AspNetUsers_ApplicationUser_Id" ManuallyRouted="false" />
+        <AssociationConnector Association="IssueTrackingModel.FK_dbo_Comment_dbo_AspNetUsers_AuthorId" ManuallyRouted="false" />
+        <AssociationConnector Association="IssueTrackingModel.FK_dbo_Issue_dbo_AspNetUsers_AssigneeId" ManuallyRouted="false" />
+        <AssociationConnector Association="IssueTrackingModel.FK_dbo_Issue_dbo_AspNetUsers_ReporterId" ManuallyRouted="false" />
+        <AssociationConnector Association="IssueTrackingModel.FK_dbo_Project_dbo_AspNetUsers_OwnerId" ManuallyRouted="false" />
+        <AssociationConnector Association="IssueTrackingModel.FK_dbo_Comment_dbo_Issue_IssueId_IssueCreatedAt" ManuallyRouted="false" />
+        <AssociationConnector Association="IssueTrackingModel.FK_dbo_Issue_dbo_Project_ProjectId_ProjectCreatedAt" ManuallyRouted="false" />
+        <AssociationConnector Association="IssueTrackingModel.FK_dbo_Issue_dbo_State_StateId" ManuallyRouted="false" />
+        <AssociationConnector Association="IssueTrackingModel.FK_dbo_StateWorkflow_dbo_State_FromStateId" ManuallyRouted="false" />
+        <AssociationConnector Association="IssueTrackingModel.FK_dbo_StateWorkflow_dbo_State_ToStateId" ManuallyRouted="false" />
+        <AssociationConnector Association="IssueTrackingModel.ProjectApplicationUser" ManuallyRouted="false" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

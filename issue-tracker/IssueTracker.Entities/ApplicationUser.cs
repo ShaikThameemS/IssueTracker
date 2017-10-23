@@ -24,6 +24,8 @@ namespace IssueTracker.Entities
         [NotMapped]
         public Guid RoleId { get; set; }
         [NotMapped]
+        public string RoleName { get; set; }
+        [NotMapped]
         public SelectList RoleSelectListItem { get; set; }
     }
 }

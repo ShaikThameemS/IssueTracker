@@ -38,6 +38,8 @@ namespace IssueTracker.Entities
         public string Description { get; set; }
         
         public int CodeNumber { get; set; }
+        public string Status { get; set; }
+        public string Priority { get; set; }
 
         // Table definitions
         public virtual Project Project { get; set; }
